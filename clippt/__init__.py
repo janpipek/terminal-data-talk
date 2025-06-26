@@ -7,6 +7,7 @@ from textwrap import dedent
 from dataclasses import dataclass, field
 from typing import Optional, ClassVar, Literal, Callable
 
+import click
 import rich
 from rich.text import Text
 from rich.console import Console
@@ -99,9 +100,7 @@ class PresentationApp(App):
     def action_edit(self) -> None:
         if self.current_slide.path:
             with self.suspend():
-                import os
-
-                os.system(f"$EDITOR {self.current_slide.path}")
+                click.edit(filename=self.current_slide.path, editor=os.environ.get("EDITOR"))
             self.current_slide.reload()
         self.update_slide()
 
@@ -129,16 +128,21 @@ class PresentationApp(App):
 @dataclass()
 class Slide(ABC):
     path: Optional[str | Path] = field(default=None, kw_only=True)
-    source: str = ""
+    source: Optional[str] = ""
     runnable: ClassVar[bool] = False
 
     def __post_init__(self):
+        self._load()
+
+    def _load(self):
         if self.path:
-            self.source = Path(self.path).read_text(encoding="utf-8")
+            try:
+                self.source = Path(self.path).read_text(encoding="utf-8")
+            except FileNotFoundError:
+                self.source = f"File not found: {self.path}."        
 
     def reload(self):
-        if self.path:
-            self.source = Path(self.path).read_text(encoding="utf-8")
+        self._load()
 
     @abstractmethod
     def render(self, app: App) -> Widget: ...
@@ -296,28 +300,14 @@ def dyn_md(f: Callable[[App], Any]) -> FuncSlide:
     return FuncSlide(f=f)
 
 
-def md(path_or_text: str, **kwargs) -> MarkdownSlide:
+def md(path: Optional[str | Path] = None, *, source: Optional[str] = None, **kwargs) -> MarkdownSlide:
     """Helper function to create a Markdown slide."""
-    if Path(path_or_text).exists():
-        kwargs["path"] = path_or_text
-    else:
-        kwargs["source"] = path_or_text
-    return MarkdownSlide(**kwargs)
+    return MarkdownSlide(path=path, source=source, **kwargs)
 
 
-def py(path_or_text: str, **kwargs) -> CodeSlide:
+def py(path: Optional[str | Path] = None, *, source: Optional[str] = None, **kwargs) -> CodeSlide:
     """Helper function to create a Python code slide."""
-    kwargs = {
-        "language": "python",
-        **kwargs,
-    }
-    if Path(path_or_text).exists():
-        kwargs["path"] = path_or_text
-        if "title" not in kwargs:
-            kwargs["title"] = path_or_text
-    else:
-        kwargs["source"] = path_or_text
-    return CodeSlide(**kwargs)
+    return CodeSlide(path=path, source=source, language="python", **kwargs)
 
 
 def sh(cmd, **kwargs) -> CodeSlide:
