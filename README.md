@@ -8,7 +8,7 @@ of Markdown slides and run code snippets in a terminal window.
 
 As a first step, clone the repository:
 
-```
+```shell
 git clone https://github.com/janpipek/terminal-data-talk
 ```
 
@@ -17,7 +17,7 @@ git clone https://github.com/janpipek/terminal-data-talk
 If you have [uv](https://docs.astral.sh/uv/) and [just](https://github.com/casey/just) on your system, you don't have to install anything to run the presentation.
 Just run:
 
-```sh
+```shell
 just present
 ```
 
@@ -25,7 +25,7 @@ just present
 
 Just do (ideally in a virtual environment)
 
-```
+```shell
 pip install -e .
 python presentation.py
 ```
