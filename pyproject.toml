@@ -1,0 +1,14 @@
+[project]
+name = "terminal-data-talk"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "click>=8.2.1",
+    "pandas>=2.3.0",
+    "plottypus[all]>=0.2.0",
+    "polars>=1.31.0",
+    "textual>=3.5.0",
+    "textual-dev>=1.7.0",
+]
