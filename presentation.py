@@ -7,6 +7,10 @@ TITLE = "Data wrangling in a modern terminal"
 
 SLIDES = [
     md("slides/000-title.md"),
+    md("slides/001-prompt.md"),
+    md("slides/001-prompt2.md"),
+    md("slides/001-prompt3.md"),
+    md("slides/010-content.md"),
 ]
 
 
