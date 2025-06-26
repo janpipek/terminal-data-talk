@@ -1,4 +1,4 @@
-run:
+present:
     uv run presentation.py # --disable-footer
 
 help:
@@ -18,3 +18,6 @@ qr:
 
 download-un:
     curl -o data/un_basic.csv https://raw.githubusercontent.com/janpipek/eda-polars-way/refs/heads/main/data/un_basic.csv
+
+download-cities:
+    curl -o data/cities.parquet https://raw.githubusercontent.com/janpipek/eda-polars-way/refs/heads/main/data/worldcities.parquet
