@@ -15,3 +15,6 @@ format:
 
 qr:
     qrencode -t utf8i https://github.com/janpipek/terminal-data-talk
+
+download-un:
+    curl -o data/un_basic.csv https://raw.githubusercontent.com/janpipek/eda-polars-way/refs/heads/main/data/un_basic.csv
