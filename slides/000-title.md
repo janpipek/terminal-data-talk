@@ -1,0 +1,5 @@
+# Data wrangling in a modern terminal
+
+Jan Pipek
+
+PyData Prague Meetup #28
