@@ -1,5 +1,3 @@
-import os
-import sys
 from abc import ABC, abstractmethod
 from pathlib import Path
 from textwrap import dedent
@@ -7,7 +5,6 @@ from dataclasses import dataclass, field
 import subprocess
 from typing import Optional, ClassVar, Literal, Callable
 
-import rich
 from rich.text import Text
 from rich.console import Console
 from textual.app import App
@@ -17,6 +14,8 @@ from textual.widgets import Markdown, Static
 from rich.panel import Panel
 
 from typing import Any
+
+from clippt.utils import wait_for_key
 
 
 @dataclass()
@@ -151,28 +150,9 @@ class CodeSlide(Slide):
             console.clear()
             self._exec(app)
             if self.wait_for_key:
-                self._wait_for_key()
+                wait_for_key()
             self.mode = "code"
             console.clear()
-
-    def _wait_for_key(self):
-        rich.print("[bold]Press any key to continue...[/bold]")
-        match sys.platform:
-            case "win32":
-                import msvcrt
-                msvcrt.getch()
-            case "linux" | "darwin":
-                # Test this works on mac
-                import tty
-                import termios
-
-                old_settings = termios.tcgetattr(sys.stdin)
-                tty.setcbreak(sys.stdin.fileno())
-                try:
-                    os.read(sys.stdin.fileno(), 3).decode()
-                finally:
-                    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_settings)
-
 
 
 class MarkdownSlide(Slide):
