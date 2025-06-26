@@ -53,7 +53,7 @@ class CodeSlide(Slide):
 
     language: Literal["shell", "python"] = "python"
     mode: Literal["code", "output"] = "code"
-    requires_alt_screen: bool = False
+    alt_screen: bool = False
     runnable: ClassVar[bool] = True
     wait_for_key: bool = True
     title: Optional[str] = None
@@ -70,7 +70,7 @@ class CodeSlide(Slide):
             case "code":
                 return self._render_code()
             case "output":
-                if self.requires_alt_screen:
+                if self.alt_screen:
                     self._exec_in_alternate_screen(app)
                     return self._render_code()
                 return self._render_output(app=app)
