@@ -28,4 +28,10 @@ css_tweaks = """
         max-height: 100;
         background: #ffffff;
     }
+    Footer {
+        background: #ffffc0;
+        color: white;
+        dock: bottom;
+        height: 1;
+    }
  """

@@ -1,10 +1,10 @@
-import io
 import os
 import sys
 from abc import ABC, abstractmethod
 from pathlib import Path
 from textwrap import dedent
 from dataclasses import dataclass, field
+import subprocess
 from typing import Optional, ClassVar, Literal, Callable
 
 import click
@@ -33,11 +33,8 @@ class PresentationApp(App):
         ("pagedown", "next_slide", "Next"),
         (".", "run", "Run"),
         ("q", "quit", "Quit"),
-        ("home", "home", "First slide"),
         ("e", "edit", "Edit"),
         ("r", "reload", "Reload"),
-        # ("s", "shell", "Shell"),
-        # ("d", "toggle_dark", "Toggle dark mode")
     ]
     
     CSS = css_tweaks
@@ -158,13 +155,15 @@ class Slide(ABC):
 class CodeSlide(Slide):
     """Slide with runnable code from external file or string."""
 
-    language: str = "python"
+    language: Literal["shell", "python"] = "python"
     mode: Literal["code", "output"] = "code"
     requires_alt_screen: bool = False
     runnable: ClassVar[bool] = True
     wait_for_key: bool = True
     title: Optional[str] = None
     is_title_markdown: bool = False
+
+    _output: Optional[str] = None
 
     def render(self, app) -> Widget:
         match self.mode:
@@ -194,26 +193,29 @@ class CodeSlide(Slide):
         import io
         from contextlib import redirect_stdout
 
-        f = io.StringIO()
         try:
             match self.language:
                 case "python":
+                    f = io.StringIO()
                     with redirect_stdout(f):
                         import plotext as plt
 
                         plt.plotsize(width=50, height=15)
                         self._exec(app=app)
-                    output = f.getvalue()
+                        output = f.getvalue()
                 case "shell":
-                    import subprocess
-                    output = subprocess.check_output(self.source, shell=True).decode("utf-8")
+                    if not self._output:
+                        with app.suspend():
+                            p = subprocess.run(self.source, shell=True, capture_output=True, text=True, encoding="utf-8")
+                            self._output = p.stdout
+                    output = self._output
         except Exception as ex:
             output = f"Error: {ex}"
         else:
             output = "\n".join(
                 " " + line.rstrip() for line in output.splitlines()
             )
-        output_widget = Static(Text.from_ansi(output))
+        output_widget = Static(Text.from_ansi(output + "\n"))
         if self.title:
             if self.is_title_markdown:
                 return Container(Markdown(self.title), output_widget)
