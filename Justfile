@@ -21,3 +21,6 @@ download-un:
 
 download-cities:
     curl -o data/cities.parquet https://raw.githubusercontent.com/janpipek/eda-polars-way/refs/heads/main/data/worldcities.parquet
+
+download-weather:
+    curl -o data/weather.parquet https://raw.githubusercontent.com/janpipek/eda-polars-way/refs/heads/main/data/prague-meteostat.parquet

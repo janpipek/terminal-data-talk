@@ -3,11 +3,26 @@ from pathlib import Path
 import click
 
 from clippt import PresentationApp, md, sh, py
+from dashboard import weather_dashboard
+
+
+@click.command()
+@click.option(
+    "--continue", "-c", "continue_", is_flag=True, help="Continue from last slide."
+)
+def presentation(continue_: bool):
+    """Run the presentation."""
+    app = PresentationApp(
+        title=TITLE,
+        slides=SLIDES,
+    )
+    if continue_ and Path(".current_slide").exists():
+        app.slide_index = int(Path(".current_slide").read_text())
+    app.slide_index = min(app.slide_index, len(SLIDES) - 1)
+    app.run()
 
 
 TITLE = "Data wrangling in a modern terminal"
-
-
 
 SLIDES = [
     # Intro
@@ -40,26 +55,11 @@ SLIDES = [
     # Dashboards
     "slides/400-dashboards.md",
     sh("htop", alt_screen=True),
+    weather_dashboard,
 
     # End
     "slides/999-end.md",
 ]
-
-
-@click.command()
-@click.option(
-    "--continue", "-c", "continue_", is_flag=True, help="Continue from last slide."
-)
-def presentation(continue_: bool):
-    """Run the presentation."""
-    app = PresentationApp(
-        title=TITLE,
-        slides=SLIDES,
-    )
-    if continue_ and Path(".current_slide").exists():
-        app.slide_index = int(Path(".current_slide").read_text())
-    app.slide_index = min(app.slide_index, len(SLIDES) - 1)
-    app.run()
 
 
 if __name__ == "__main__":
