@@ -4,9 +4,9 @@ from clippt.slides import Slide, load
 
 import click
 from textual.app import App, ComposeResult
-from textual.containers import  VerticalScroll
-from textual.widgets import Footer, Markdown
-from textual.css.query import NoMatches, QueryError
+from textual.containers import  VerticalScroll, Container
+from textual.widgets import Footer
+from textual.css.query import QueryError
 
 from clippt.theming import my_theme, css_tweaks
 
@@ -50,8 +50,8 @@ class PresentationApp(App):
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
         # yield Header(show_clock=True)
-        yield VerticalScroll(
-            self.current_slide.render(app=self), id="content", can_focus=False
+        yield Container(
+            self.current_slide.render(app=self), id="content"  #, can_focus=False
         )
         if self.enable_footer:
             yield Footer(show_command_palette=False)
@@ -109,9 +109,10 @@ class PresentationApp(App):
 
     def update_slide(self) -> None:
         try:
-            container_widget = self.query_one("#content", VerticalScroll)
-            content_widget = self.slides[self.slide_index].render(app=self)
+            container_widget = self.query_one("#content", Container)
             container_widget.remove_children()
+            self.refresh()
+            content_widget = self.slides[self.slide_index].render(app=self)
             container_widget.mount(content_widget)
             Path(".current_slide").write_text(str(self.slide_index))
         except QueryError:
