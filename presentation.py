@@ -20,7 +20,8 @@ SLIDES = [
 
     # Tabular data
     md("slides/100-tabular.md"),
-    sh("cat data/countries.csv", title="data/countries.csv", mode="output"),
+    "data/countries.csv",
+    # sh("cat data/countries.csv", title="data/countries.csv", mode="output"),
     sh("cat data/countries.csv | less", alt_screen=True, title="Standard Unix tool: cat"),
     sh("bat data/countries.csv", alt_screen=True, title="bat = cat on steroids"),
     "slides/120-task-sort.md",
@@ -28,6 +29,7 @@ SLIDES = [
     sh("xan view -A data/countries.csv", title="xan = The CSV magician"),
     sh("xan sort -NR -s population data/countries.csv | xan view"),
     sh("xan search -s region Asia data/countries.csv  | xan sort -NR -s population | xan view"),
+    "data/cities.parquet",
     sh("bat data/cities.parquet", alt_screen=True),
     "slides/130-visidata.md",
     sh("visidata data/countries.csv", alt_screen=True),

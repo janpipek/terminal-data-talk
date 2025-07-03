@@ -1,3 +1,6 @@
+continue:
+    uv run presentation.py --continue
+
 present:
     uv run presentation.py # --disable-footer
 
@@ -6,9 +9,6 @@ help:
 
 sync:
     uv sync
-
-continue:
-    uv run presentation.py --continue
 
 format:
     uvx ruff format presentation.py slides/*.py
