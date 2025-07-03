@@ -11,8 +11,11 @@ from rich.console import Console
 from textual.app import App
 from textual.containers import Container
 from textual.widget import Widget
-from textual.widgets import Markdown, Static, DataTable
+from textual.widgets import Markdown, Static
 from rich.panel import Panel
+
+from textual_fastdatatable import DataTable
+from textual_fastdatatable.backend import PolarsBackend
 
 from typing import Any
 
@@ -187,10 +190,12 @@ class DataSlide(Slide):
 
     def render(self, app: App) -> Widget:
         if self.data is not None:
-            dt = DataTable()
-            dt.add_columns(*self.data.columns)
-            for row in self.data.iter_rows():
-                dt.add_row(*row)
+            backend = PolarsBackend.from_dataframe(self.data)
+            dt = DataTable(backend=backend, zebra_stripes=True)
+            dt.can_focus = False
+            #dt.add_columns(*self.data.columns)
+            #for row in self.data.iter_rows():
+            #    dt.add_row(*row)
             return dt
         else:
             return Markdown("No data.")
