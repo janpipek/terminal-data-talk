@@ -191,7 +191,7 @@ class DataSlide(Slide):
     def render(self, app: App) -> Widget:
         if self.data is not None:
             backend = PolarsBackend.from_dataframe(self.data)
-            dt = DataTable(backend=backend, zebra_stripes=True)
+            dt = DataTable(backend=backend, zebra_stripes=True, show_cursor=False)
             dt.can_focus = False
             #dt.add_columns(*self.data.columns)
             #for row in self.data.iter_rows():
@@ -210,7 +210,7 @@ class DataSlide(Slide):
                 case _:
                     raise NotImplementedError()
 
-def dyn_md(f: Callable[[App], Any]) -> FuncSlide:
+def slide(f: Callable[[App], Any]) -> FuncSlide:
     """Decorator to create a markdown slide from a function."""
     return FuncSlide(f=f)
 
