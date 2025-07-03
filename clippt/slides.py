@@ -5,12 +5,13 @@ from dataclasses import dataclass, field
 import subprocess
 from typing import Optional, ClassVar, Literal, Callable
 
+import polars as pl
 from rich.text import Text
 from rich.console import Console
 from textual.app import App
 from textual.containers import Container
 from textual.widget import Widget
-from textual.widgets import Markdown, Static
+from textual.widgets import Markdown, Static, DataTable
 from rich.panel import Panel
 
 from typing import Any
@@ -27,7 +28,7 @@ class Slide(ABC):
     def __post_init__(self):
         self._load()
 
-    def _load(self):
+    def _load(self) -> None:
         if self.path:
             try:
                 self.source = self.path.read_text(encoding="utf-8")
@@ -180,6 +181,30 @@ class FuncSlide(Slide):
             raise NotImplementedError()
 
 
+@dataclass
+class DataSlide(Slide):
+    data: Optional[pl.DataFrame] = None
+
+    def render(self, app: App) -> Widget:
+        if self.data is not None:
+            dt = DataTable()
+            dt.add_columns(*self.data.columns)
+            for row in self.data.iter_rows():
+                dt.add_row(*row)
+            return dt
+        else:
+            return Markdown("No data.")
+
+    def _load(self) -> None:
+        if self.path:
+            match self.path.suffix:
+                case ".csv":
+                    self.data = pl.read_csv(self.path)
+                case ".pq" | ".parquet":
+                    self.data = pl.read_parquet(self.path)
+                case _:
+                    raise NotImplementedError()
+
 def dyn_md(f: Callable[[App], Any]) -> FuncSlide:
     """Decorator to create a markdown slide from a function."""
     return FuncSlide(f=f)
@@ -212,5 +237,7 @@ def load(path: str | Path, **kwargs) -> Slide:
             return CodeSlide(path=path, language="python", **kwargs)
         case ".md":
             return MarkdownSlide(path=path, **kwargs)
+        case ".csv" | ".pq" | ".parquet":
+            return DataSlide(path=path)
         case _:
             return MarkdownSlide(source=f"Unknown file type: {path}")
