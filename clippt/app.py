@@ -6,7 +6,7 @@ import click
 from textual.app import App, ComposeResult
 from textual.containers import  VerticalScroll
 from textual.widgets import Footer, Markdown
-from textual.css.query import QueryError
+from textual.css.query import NoMatches, QueryError
 
 from clippt.theming import my_theme, css_tweaks
 
@@ -23,6 +23,7 @@ class PresentationApp(App):
         ("q", "quit", "Quit"),
         ("e", "edit", "Edit"),
         ("r", "reload", "Reload"),
+        ("home", "home", "First slide"),
     ]
 
     CSS = css_tweaks
@@ -33,7 +34,7 @@ class PresentationApp(App):
 
     document_title: str
 
-    def __init__(self, *, slides: list, title: str, **kwargs):
+    def __init__(self, *, slides: list[str | Path | Slide], title: str, **kwargs):
         self.slides = self._ensure_load_slides(slides)
         self.document_title = title
         super().__init__(**kwargs)
@@ -50,16 +51,15 @@ class PresentationApp(App):
         """Create child widgets for the app."""
         # yield Header(show_clock=True)
         yield VerticalScroll(
-            Markdown("Loading..."), id="content", can_focus=False
+            self.current_slide.render(app=self), id="content", can_focus=False
         )
         if self.enable_footer:
-            yield Footer()
+            yield Footer(show_command_palette=False)
 
     def on_mount(self) -> None:
         """Hook called when the app is mounted."""
         self.register_theme(my_theme)
         self.theme = "my"
-        self.update_slide()
 
     def on_resize(self) -> None:
         """Hook called when the app is resized."""
