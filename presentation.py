@@ -15,27 +15,29 @@ SLIDES = [
     "slides/001-prompt.md",
     "slides/001-prompt2.md",
     "slides/001-prompt3.md",
+    md("# Python in the terminal...\n...is just Python"),
     "slides/010-problems.md",
 
     # Tabular data
     md("slides/100-tabular.md"),
     sh("cat data/countries.csv", title="data/countries.csv", mode="output"),
-    sh("cat data/countries.csv | less", alt_screen=True, title="Standard Unix tool: cat", wait_for_key=False),
-    sh("bat data/countries.csv", alt_screen=True, title="bat = cat on steroids", wait_for_key=False),
+    sh("cat data/countries.csv | less", alt_screen=True, title="Standard Unix tool: cat"),
+    sh("bat data/countries.csv", alt_screen=True, title="bat = cat on steroids"),
     "slides/120-task-sort.md",
     "slides/121-countries_by_population.py",
-    sh("xan view -A data/countries.csv"),
+    sh("xan view -A data/countries.csv", title="xan = The CSV magician"),
     sh("xan sort -NR -s population data/countries.csv | xan view"),
     sh("xan search -s region Asia data/countries.csv  | xan sort -NR -s population | xan view"),
     sh("bat data/cities.parquet", alt_screen=True),
     "slides/130-visidata.md",
-    sh("visidata data/countries.csv", alt_screen=True, wait_for_key=False),
+    sh("visidata data/countries.csv", alt_screen=True),
 
     # Visualisation
     "slides/200-visualisation.md",
 
     # Dashboards
     "slides/400-dashboards.md",
+    sh("htop", alt_screen=True),
 
     # End
     "slides/999-end.md",

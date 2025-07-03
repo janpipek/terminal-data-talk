@@ -20,8 +20,8 @@ from clippt.utils import wait_for_key
 
 @dataclass()
 class Slide(ABC):
-    path: Optional[str | Path] = field(default=None, kw_only=True)
-    source: Optional[str] = ""
+    path: Optional[Path] = field(default=None, kw_only=True)
+    source: str = ""
     runnable: ClassVar[bool] = False
 
     def __post_init__(self):
@@ -30,7 +30,7 @@ class Slide(ABC):
     def _load(self):
         if self.path:
             try:
-                self.source = Path(self.path).read_text(encoding="utf-8")
+                self.source = self.path.read_text(encoding="utf-8")
             except FileNotFoundError:
                 self.source = f"File not found: {self.path}."
 
@@ -55,7 +55,7 @@ class CodeSlide(Slide):
     mode: Literal["code", "output"] = "code"
     alt_screen: bool = False
     runnable: ClassVar[bool] = True
-    wait_for_key: bool = True
+    wait_for_key: bool = False
     title: Optional[str] = None
     is_title_markdown: bool = False
 
