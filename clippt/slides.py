@@ -32,7 +32,7 @@ class Slide(ABC):
             try:
                 self.source = Path(self.path).read_text(encoding="utf-8")
             except FileNotFoundError:
-                self.source = f"File not found: {self.path}."        
+                self.source = f"File not found: {self.path}."
 
     def reload(self):
         self._load()
@@ -185,14 +185,14 @@ def dyn_md(f: Callable[[App], Any]) -> FuncSlide:
     return FuncSlide(f=f)
 
 
-def md(path: Optional[str | Path] = None, *, source: Optional[str] = None, **kwargs) -> MarkdownSlide:
-    """Helper function to create a Markdown slide."""
-    return MarkdownSlide(path=path, source=source, **kwargs)
+def md(source: str, **kwargs) -> MarkdownSlide:
+    """Helper function to create a simple Markdown slide."""
+    return MarkdownSlide(path=None, source=source, **kwargs)
 
 
-def py(path: Optional[str | Path] = None, *, source: Optional[str] = None, **kwargs) -> CodeSlide:
-    """Helper function to create a Python code slide."""
-    return CodeSlide(path=path, source=source, language="python", **kwargs)
+def py(source: str, **kwargs) -> CodeSlide:
+    """Helper function to create a simple Python code slide."""
+    return CodeSlide(path=None, source=source, language="python", **kwargs)
 
 
 def sh(cmd, **kwargs) -> CodeSlide:
@@ -202,3 +202,15 @@ def sh(cmd, **kwargs) -> CodeSlide:
         **kwargs,
     }
     return CodeSlide(source=cmd, **kwargs)
+
+
+def load(path: str | Path, **kwargs) -> Slide:
+    """Load a slide from an external file."""
+    path = Path(path)
+    match path.suffix:
+        case ".py":
+            return CodeSlide(path=path, language="python", **kwargs)
+        case ".md":
+            return MarkdownSlide(path=path, **kwargs)
+        case _:
+            return MarkdownSlide(source=f"Unknown file type: {path}")

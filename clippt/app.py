@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from clippt.slides import Slide
+from clippt.slides import Slide, load
 
 import click
 from textual.app import App, ComposeResult
@@ -24,7 +24,7 @@ class PresentationApp(App):
         ("e", "edit", "Edit"),
         ("r", "reload", "Reload"),
     ]
-    
+
     CSS = css_tweaks
 
     slide_index: int = 0
@@ -34,9 +34,17 @@ class PresentationApp(App):
     document_title: str
 
     def __init__(self, *, slides: list, title: str, **kwargs):
-        self.slides = slides
+        self.slides = self._ensure_load_slides(slides)
         self.document_title = title
         super().__init__(**kwargs)
+
+    def _ensure_load_slides(self, slides: list[Slide | str | Path]) -> list[Slide]:
+        return [
+            slide_or_path
+            if isinstance(slide_or_path, Slide)
+            else load(slide_or_path)
+            for slide_or_path in slides
+        ]
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
@@ -85,7 +93,7 @@ class PresentationApp(App):
     def action_edit(self) -> None:
         if self.current_slide.path:
             with self.suspend():
-                click.edit(filename=self.current_slide.path, editor=os.environ.get("EDITOR"))
+                click.edit(filename=[self.current_slide.path], editor=os.environ.get("EDITOR"))
             self.current_slide.reload()
         self.update_slide()
 

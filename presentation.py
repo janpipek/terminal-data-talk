@@ -7,23 +7,36 @@ from clippt import PresentationApp, md, sh, py
 
 TITLE = "Data wrangling in a modern terminal"
 
+
+
 SLIDES = [
-    md("slides/000-title.md"),
-    md("slides/001-prompt.md"),
-    md("slides/001-prompt2.md"),
-    md("slides/001-prompt3.md"),
-    md("slides/010-problems.md"),
+    # Intro
+    "slides/000-title.md",
+    "slides/001-prompt.md",
+    "slides/001-prompt2.md",
+    "slides/001-prompt3.md",
+    "slides/010-problems.md",
+
+    # Tabular data
     md("slides/100-tabular.md"),
-    sh("cat data/un_basic.csv", title="data/un_basic.csv", mode="output"),
-    sh("cat data/un_basic.csv | less", alt_screen=True, title="cat", wait_for_key=False),
-    sh("bat data/un_basic.csv", alt_screen=True, title="bat = cat on steroids", wait_for_key=False),
-    sh("xan view data/un_basic.csv", alt_screen=True, title="xan = csv swiss-army knife"),
+    sh("cat data/countries.csv", title="data/countries.csv", mode="output"),
+    sh("cat data/countries.csv | less", alt_screen=True, title="Standard Unix tool: cat", wait_for_key=False),
+    sh("bat data/countries.csv", alt_screen=True, title="bat = cat on steroids", wait_for_key=False),
+    md("# Task: Sort (Asian) countries by population"),
+    "slides/120-countries_by_population.py",
+    sh("xan view data/countries.csv", alt_screen=True, title="xan = csv swiss-army knife"),
     sh("bat data/cities.parquet", alt_screen=True),
-    md("slides/130-visidata.md"),
-    sh("visidata data/un_basic.csv", alt_screen=True),
-    md("slides/200-visualisation.md"),
-    md("slides/400-dashboards.md"),
-    md("slides/999-end.md"),
+    "slides/130-visidata.md",
+    sh("visidata data/countries.csv", alt_screen=True, wait_for_key=False),
+
+    # Visualisation
+    "slides/200-visualisation.md",
+
+    # Dashboards
+    "slides/400-dashboards.md",
+
+    # End
+    "slides/999-end.md",
 ]
 
 

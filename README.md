@@ -1,4 +1,4 @@
-# Data wrangling in a modern terminal 
+# Data wrangling in a modern terminal
 
 This is a live presentation in terminal which I gave at PyData Prague in 2025.
 The presentation itself is a Python app that uses [Textual](https://textual.textualize.io/) to drive the display
@@ -34,11 +34,11 @@ python presentation.py
 
 ### Tools
 
-- [bat]()
-- [xan]()
-- [visidata]()
+- [bat](https://github.com/sharkdp/bat)
+- [xan](https://github.com/medialab/xan)
+- [visidata](https://www.visidata.org/)
 
 ### Libraries
 
-- 
+-
 - [textual]()
