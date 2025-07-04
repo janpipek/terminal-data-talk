@@ -40,5 +40,8 @@ python presentation.py
 
 ### Libraries
 
--
+- [plottile]()
+- [plotext]()
 - [textual]()
+- [textual-plotext]()
+- [textual-fastdatatable]()
