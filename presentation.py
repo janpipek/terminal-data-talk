@@ -2,7 +2,7 @@ from pathlib import Path
 
 import click
 
-from clippt import PresentationApp, md, sh, load
+from clippt import PresentationApp, load, md, sh
 from dynamic_slides import terminal_is_your_weapon, weather_dashboard
 
 
@@ -64,7 +64,9 @@ SLIDES = [
     "slides/141-rich.py",
     "slides/142-rich_countries.py",
     "data/cities.parquet",
-    sh("bat data/cities.parquet", alt_screen=True),
+    load("slides/143-polars_cities.py", alt_screen=True, wait_for_key=True),
+    load("slides/143-rich_cities.py", alt_screen=True, wait_for_key=True),
+    md("# Let's get interactive...\n\nor just wait a bit"),
     # Visualisation
     "slides/200-visualisation.md",
     load(

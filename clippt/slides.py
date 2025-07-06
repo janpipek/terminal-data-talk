@@ -1,6 +1,8 @@
+import io
 import subprocess
 import traceback
 from abc import ABC, abstractmethod
+from contextlib import redirect_stdout
 from dataclasses import dataclass, field
 from io import StringIO
 from pathlib import Path
@@ -51,10 +53,10 @@ class Slide(ABC):
 
 
 @dataclass
-class CodeSlide(Slide):
+class CodeSlide(Slide, ABC):
     """Slide with runnable code from external file or string."""
 
-    language: Literal["shell", "python"] = "python"
+    language: ClassVar[str]
     mode: Literal["code", "output"] = "code"
     alt_screen: bool = False
     runnable: ClassVar[bool] = True
@@ -76,7 +78,9 @@ class CodeSlide(Slide):
                 if self.alt_screen:
                     self._exec_in_alternate_screen(app)
                     return self._render_code()
-                return self._render_output(app=app)
+                else:
+                    output = self._exec_inline(app)
+                    return self._render_output(output=output, app=app)
 
     def _render_code(self) -> Markdown:
         code = "\n".join(
@@ -90,40 +94,7 @@ class CodeSlide(Slide):
             return Markdown(f"# {self.title}\n\n```{self.language}\n{code}\n```")
         return Markdown(f"```{self.language}\n{code}\n```")
 
-    def _render_output(self, app) -> Widget:
-        import io
-        from contextlib import redirect_stdout
-
-        try:
-            match self.language:
-                case "python":
-                    f = io.StringIO()
-                    with redirect_stdout(f):
-                        import plotext as plt
-
-                        plt.plotsize(width=50, height=15)
-                        self._exec(app=app)
-                        output = f.getvalue()
-                case "shell":
-                    if not self._output:
-                        with app.suspend():
-                            p = subprocess.run(
-                                self.source,
-                                shell=True,
-                                capture_output=True,
-                                text=True,
-                                encoding="utf-8",
-                            )
-                            self._output = p.stdout
-                    output = self._output
-        except Exception as ex:
-            out = StringIO()
-            out.write(f"Error: {ex}\n")
-            out.write("\n")
-            traceback.print_exception(ex, file=out)
-            output = out.getvalue()
-        else:
-            output = "\n".join(" " + line.rstrip() for line in output.splitlines())
+    def _render_output(self, *, output: str, app: App) -> Widget:
         output_widget = Static(Text.from_ansi(output + "\n"))
         if self.title:
             if self.is_title_markdown:
@@ -135,24 +106,11 @@ class CodeSlide(Slide):
             )
         return VerticalScroll(output_widget, can_focus=False)
 
-    def _exec(self, app: App) -> None:
-        match self.language:
-            case "python":
-                exec(
-                    self.source,
-                    globals=globals()
-                    | {
-                        "WIDTH": app.size.width - 4,
-                        "HEIGHT": app.size.height - 2,
-                    },
-                )
-                import plotext as plt
+    @abstractmethod
+    def _exec_inline(self, app: App) -> str: ...
 
-                plt.clear_figure()
-            case "shell":
-                import os
-
-                os.system(self.source)
+    @abstractmethod
+    def _exec(self, app: App): ...
 
     def run(self):
         self.mode = "output" if self.mode == "code" else "code"
@@ -166,6 +124,62 @@ class CodeSlide(Slide):
                 wait_for_key()
             self.mode = "code"
             console.clear()
+
+
+class PythonSlide(CodeSlide):
+    language: ClassVar[str] = "python"
+
+    def _exec_inline(self, app) -> str:
+        f = io.StringIO()
+        with redirect_stdout(f):
+            import plotext as plt
+
+            plt.plotsize(width=50, height=15)
+
+            try:
+                self._exec(app=app)
+
+                # return "\n".join(" " + line.rstrip() for line in output.splitlines())
+                return f.getvalue()
+            except Exception as ex:
+                out = StringIO()
+                out.write(f"Error: {ex}\n")
+                out.write("\n")
+                traceback.print_exception(ex, file=out)
+                return out.getvalue()
+
+    def _exec(self, app: App) -> None:
+        exec(
+            self.source,
+            globals=globals()
+            | {
+                "WIDTH": app.size.width - 4,
+                "HEIGHT": app.size.height - 2,
+            },
+        )
+        import plotext as plt
+
+        plt.clear_figure()
+
+
+class ShellSlide(CodeSlide):
+    language: ClassVar[str] = "shell"
+
+    def _exec(self, app: App):
+        return subprocess.run(
+            self.source,
+            shell=True,
+            capture_output=self.alt_screen,
+            text=True,
+            encoding="utf-8",
+        )
+
+    def _exec_inline(self, app) -> str:
+        if not self._output:
+            with app.suspend():
+                p = self._exec(app)
+                self._output = p.stdout
+        return self._output
 
 
 class MarkdownSlide(Slide):
@@ -231,16 +245,12 @@ def md(source: str, **kwargs) -> MarkdownSlide:
 
 def py(source: str, **kwargs) -> CodeSlide:
     """Helper function to create a simple Python code slide."""
-    return CodeSlide(path=None, source=source, language="python", **kwargs)
+    return PythonSlide(path=None, source=source, language="python", **kwargs)
 
 
 def sh(cmd, **kwargs) -> CodeSlide:
     """Helper function to create a shell command slide."""
-    kwargs = {
-        "language": "shell",
-        **kwargs,
-    }
-    return CodeSlide(source=cmd, **kwargs)
+    return ShellSlide(source=cmd, **kwargs)
 
 
 def load(path: str | Path, **kwargs) -> Slide:
@@ -248,7 +258,7 @@ def load(path: str | Path, **kwargs) -> Slide:
     path = Path(path)
     match path.suffix:
         case ".py":
-            return CodeSlide(path=path, language="python", **kwargs)
+            return PythonSlide(path=path, **kwargs)
         case ".md":
             return MarkdownSlide(path=path, **kwargs)
         case ".csv" | ".pq" | ".parquet":
