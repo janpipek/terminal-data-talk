@@ -106,7 +106,7 @@ class WeatherDashboard(Container):
 
 
 @slide
-def weather_dashboard(app: App):
+def weather_dashboard(app: App) -> WeatherDashboard:
     data = pl.read_parquet("data/weather.parquet")
     data = data.filter(pl.col("time").dt.year() >= 2004)
     return WeatherDashboard(data=data)

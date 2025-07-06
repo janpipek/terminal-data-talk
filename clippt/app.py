@@ -24,6 +24,7 @@ class PresentationApp(App):
         ("e", "edit", "Edit"),
         ("r", "reload", "Reload"),
         ("home", "home", "First slide"),
+        ("end", "end", "Last slide"),
     ]
 
     CSS = css_tweaks
@@ -64,12 +65,6 @@ class PresentationApp(App):
         """Hook called when the app is resized."""
         self.update_slide()
 
-    def action_toggle_dark(self) -> None:
-        """An action to toggle dark mode."""
-        self.theme = (
-            "textual-dark" if self.theme == "textual-light" else "textual-light"
-        )
-
     def action_reload(self) -> None:
         self.current_slide.reload()
         self.update_slide()
@@ -82,6 +77,9 @@ class PresentationApp(App):
 
     def action_home(self) -> None:
         self.switch_to_slide(0)
+
+    def action_end(self) -> None:
+        self.switch_to_slide(len(self.slides) - 1)
 
     def switch_to_slide(self, index: int) -> None:
         curent_index = self.slide_index

@@ -2,7 +2,7 @@ from pathlib import Path
 
 import click
 
-from clippt import PresentationApp, md, py, sh
+from clippt import PresentationApp, md, sh, load
 from dynamic_slides import terminal_is_your_weapon, weather_dashboard
 
 
@@ -61,12 +61,13 @@ SLIDES = [
     "slides/121-sorted_countries_pandas.py",
     "slides/122-sorted_countries_polars.py",
     "slides/140-rich.md",
-    py("slides/141-rich.py", alt_screen=True),
+    "slides/141-rich.py",
+    "slides/142-rich_countries.py",
     "data/cities.parquet",
     sh("bat data/cities.parquet", alt_screen=True),
     # Visualisation
     "slides/200-visualisation.md",
-    py(
+    load(
         "slides/spurious_correlations.py",
         title="Czech jet fuel consumption vs successful climbs of Mt. Everest\n\n",
         mode="output",
