@@ -166,7 +166,7 @@ class ShellSlide(CodeSlide):
         return subprocess.run(
             self.source,
             shell=True,
-            capture_output=self.alt_screen,
+            capture_output=not self.alt_screen,
             text=True,
             encoding="utf-8",
         )

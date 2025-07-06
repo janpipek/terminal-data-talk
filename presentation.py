@@ -51,7 +51,7 @@ SLIDES = [
     # sh("bat data/countries.csv --paging=never", title="bat = cat & less on steroids ⛏️"),
     "slides/120-task-sort.md",
     sh("xan view -A data/countries.csv", title="xan = The CSV magician ⛏️"),
-    sh("xan sort -NR -s population data/countries.csv | xan view - M"),
+    sh("xan sort -NR -s population data/countries.csv | xan view -M"),
     sh(
         "xan search -s region Asia data/countries.csv  | xan sort -NR -s population | xan view -M"
     ),
