@@ -78,6 +78,9 @@ SLIDES = [
     ),
     # "slides/spurious_correlations.csv",
     terminal_is_your_weapon,
+    md("## Example: Simple barchart\nPopulation of Czech cities"),
+    load("slides/simple_bar.py"),
+
     # Dashboards
     "slides/400-dashboards.md",
     sh("htop", alt_screen=True),
