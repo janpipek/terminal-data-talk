@@ -2,7 +2,7 @@ from pathlib import Path
 
 import click
 
-from clippt import PresentationApp, md, sh, py
+from clippt import PresentationApp, md, sh, py, load
 from dashboard import weather_dashboard
 from slides import terminal_is_your_weapon
 
@@ -33,24 +33,32 @@ SLIDES = [
     "slides/001-prompt3.md",
     md("# Why?"),
     "slides/004-why.md",
-    md("# Python in the terminal...\n...is just Python"),
+    md("# Python in the terminal...\n...is just Python 🐍"),
     "slides/010-problems.md",
 
     # Tabular data
-    md("slides/100-tabular.md"),
+    # md("slides/100-tabular.md"),
     "data/countries.csv",
     # sh("cat data/countries.csv", title="data/countries.csv", mode="output"),
-    sh("cat data/countries.csv | less", alt_screen=True, title="Standard Unix tool: cat"),
-    sh("bat data/countries.csv", alt_screen=True, title="bat = cat on steroids"),
+    sh("cat data/countries.csv | less", alt_screen=True, title="Standard Unix tools: cat, less ⛏️"),
+    sh("bat data/countries.csv", alt_screen=True, title="bat = cat & less on steroids ⛏️"),
+    # sh("bat data/countries.csv --paging=never", title="bat = cat & less on steroids ⛏️"),
+
     "slides/120-task-sort.md",
-    "slides/121-countries_by_population.py",
-    sh("xan view -A data/countries.csv", title="xan = The CSV magician"),
-    sh("xan sort -NR -s population data/countries.csv | xan view"),
-    sh("xan search -s region Asia data/countries.csv  | xan sort -NR -s population | xan view"),
-    "data/cities.parquet",
-    sh("bat data/cities.parquet", alt_screen=True),
+    sh("xan view -A data/countries.csv", title="xan = The CSV magician ⛏️"),
+    sh("xan sort -NR -s population data/countries.csv | xan view - M"),
+    sh("xan search -s region Asia data/countries.csv  | xan sort -NR -s population | xan view -M"),
+
     "slides/130-visidata.md",
     sh("visidata data/countries.csv", alt_screen=True),
+
+    md("# Enough shell...\nlet's Python"),
+    "slides/121-sorted_countries_pandas.py",
+    "slides/122-sorted_countries_polars.py",
+
+    "data/cities.parquet",
+    sh("bat data/cities.parquet", alt_screen=True),
+
 
     # Visualisation
     "slides/200-visualisation.md",

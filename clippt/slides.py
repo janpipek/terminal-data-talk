@@ -91,7 +91,7 @@ class CodeSlide(Slide):
             if self.is_title_markdown:
                 return Markdown(self.title + f"\n\n```{self.language}\n{code}\n```")
             return Markdown(
-                f"## {self.title}\n\n```{self.language}\n{code}\n```"
+                f"# {self.title}\n\n```{self.language}\n{code}\n```"
             )
         return Markdown(f"```{self.language}\n{code}\n```")
 
@@ -129,7 +129,7 @@ class CodeSlide(Slide):
         if self.title:
             if self.is_title_markdown:
                 return VerticalScroll(Markdown(self.title), output_widget, can_focus=False)
-            return VerticalScroll(Markdown(f"## {self.title}"), output_widget, can_focus=False)
+            return VerticalScroll(Markdown(f"# {self.title}"), output_widget, can_focus=False)
         return VerticalScroll(output_widget, can_focus=False)
 
     def _exec(self, app: App) -> None:
@@ -199,9 +199,6 @@ class DataSlide(Slide):
             backend = PolarsBackend.from_dataframe(self.data)
             dt = DataTable(backend=backend, zebra_stripes=True, show_cursor=False)
             dt.can_focus = False
-            #dt.add_columns(*self.data.columns)
-            #for row in self.data.iter_rows():
-            #    dt.add_row(*row)
             return dt
         else:
             return Markdown("No data.")
@@ -249,6 +246,6 @@ def load(path: str | Path, **kwargs) -> Slide:
         case ".md":
             return MarkdownSlide(path=path, **kwargs)
         case ".csv" | ".pq" | ".parquet":
-            return DataSlide(path=path)
+            return DataSlide(path=path, **kwargs)
         case _:
             return MarkdownSlide(source=f"Unknown file type: {path}")

@@ -1,6 +1,6 @@
 # Task: Sort (Asian) countries by population
 
-cat? bat?
+cat? bat? (+ awk? sed? sort? ...)
 
 Python?
 
