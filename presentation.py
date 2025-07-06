@@ -4,6 +4,7 @@ import click
 
 from clippt import PresentationApp, md, sh, py
 from dashboard import weather_dashboard
+from slides import terminal_is_your_weapon
 
 
 @click.command()
@@ -30,6 +31,8 @@ SLIDES = [
     "slides/001-prompt.md",
     "slides/001-prompt2.md",
     "slides/001-prompt3.md",
+    md("# Why?"),
+    "slides/004-why.md",
     md("# Python in the terminal...\n...is just Python"),
     "slides/010-problems.md",
 
@@ -51,10 +54,18 @@ SLIDES = [
 
     # Visualisation
     "slides/200-visualisation.md",
+    py(
+        "slides/spurious_correlations.py",
+        title="Czech jet fuel consumption vs successful climbs of Mt. Everest\n\n",
+        mode="output",
+    ),
+    # "slides/spurious_correlations.csv",
+    terminal_is_your_weapon,
 
     # Dashboards
     "slides/400-dashboards.md",
     sh("htop", alt_screen=True),
+
     weather_dashboard,
 
     # End

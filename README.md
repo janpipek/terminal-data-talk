@@ -40,8 +40,9 @@ python presentation.py
 
 ### Libraries
 
-- [plottile]()
-- [plotext]()
-- [textual]()
-- [textual-plotext]()
-- [textual-fastdatatable]()
+- [plotille](https://github.com/tammoippen/plotille)
+- [plotext](https://github.com/piccolomo/plotext)
+- [textual](https://textual.textualize.io/)
+- [textual-plotext](https://github.com/Textualize/textual-plotext)
+- [textual-plot](https://github.com/davidfokkema/textual-plot)
+- [textual-fastdatatable](https://github.com/tconbeer/textual-fastdatatable)

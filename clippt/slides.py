@@ -3,13 +3,15 @@ from pathlib import Path
 from textwrap import dedent
 from dataclasses import dataclass, field
 import subprocess
+import traceback
 from typing import Optional, ClassVar, Literal, Callable
+from io import StringIO
 
 import polars as pl
 from rich.text import Text
 from rich.console import Console
 from textual.app import App
-from textual.containers import Container
+from textual.containers import Container, VerticalScroll
 from textual.widget import Widget
 from textual.widgets import Markdown, Static
 from rich.panel import Panel
@@ -114,7 +116,11 @@ class CodeSlide(Slide):
                             self._output = p.stdout
                     output = self._output
         except Exception as ex:
-            output = f"Error: {ex}"
+            out = StringIO()
+            out.write(f"Error: {ex}\n")
+            out.write("\n")
+            traceback.print_exception(ex, file=out)
+            output = out.getvalue()
         else:
             output = "\n".join(
                 " " + line.rstrip() for line in output.splitlines()
@@ -122,9 +128,9 @@ class CodeSlide(Slide):
         output_widget = Static(Text.from_ansi(output + "\n"))
         if self.title:
             if self.is_title_markdown:
-                return Container(Markdown(self.title), output_widget)
-            return Container(Markdown(f"## {self.title}"), output_widget)
-        return output_widget
+                return VerticalScroll(Markdown(self.title), output_widget, can_focus=False)
+            return VerticalScroll(Markdown(f"## {self.title}"), output_widget, can_focus=False)
+        return VerticalScroll(output_widget, can_focus=False)
 
     def _exec(self, app: App) -> None:
         match self.language:

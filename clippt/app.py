@@ -4,7 +4,7 @@ from clippt.slides import Slide, load
 
 import click
 from textual.app import App, ComposeResult
-from textual.containers import  VerticalScroll, Container
+from textual.containers import  Container
 from textual.widgets import Footer
 from textual.css.query import QueryError
 

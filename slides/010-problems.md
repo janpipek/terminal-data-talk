@@ -1,4 +1,4 @@
-# The challenge
+# Challenges
 
 - properly formatted tables
 - rich visual representation
