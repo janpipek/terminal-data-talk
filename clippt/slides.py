@@ -27,7 +27,7 @@ from clippt.utils import wait_for_key
 class Slide(ABC):
     path: Optional[Path] = field(default=None, kw_only=True)
     source: str = ""
-    runnable: ClassVar[bool] = False
+    runnable: bool = False
 
     def __post_init__(self):
         self._load()
@@ -45,9 +45,6 @@ class Slide(ABC):
     @abstractmethod
     def render(self, app: App) -> Widget: ...
 
-    def is_runnable(self) -> bool:
-        return False
-
     def run(self) -> None:
         pass
 
@@ -59,7 +56,7 @@ class CodeSlide(Slide, ABC):
     language: ClassVar[str]
     mode: Literal["code", "output"] = "code"
     alt_screen: bool = False
-    runnable: ClassVar[bool] = True
+    runnable: bool = True
     wait_for_key: bool = False
     title: Optional[str] = None
     is_title_markdown: bool = False

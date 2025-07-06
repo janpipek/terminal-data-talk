@@ -4,7 +4,9 @@ import plotext as plt
 import polars as pl  # HIDE
 
 plt.clear_figure()  # HIDE
-data = pl.read_csv(Path(__file__).parent / "spurious_correlations.csv")
+data = pl.read_csv(
+    Path(__file__).parent.parent / "slides" / "spurious_correlations.csv"
+)
 plt.plot(
     data["Year"], data["Fuel Used"], label="Jet fuel used in Czechia", yside="left"
 )

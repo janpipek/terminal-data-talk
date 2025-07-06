@@ -65,7 +65,9 @@ SLIDES = [
     "slides/142-rich_countries.py",
     "data/cities.parquet",
     load("slides/143-polars_cities.py", alt_screen=True, wait_for_key=True),
-    load("slides/143-rich_cities.py", alt_screen=True, wait_for_key=True),
+    load(
+        "slides/143-rich_cities.py", alt_screen=True, wait_for_key=True, runnable=False
+    ),
     md("# Let's get interactive...\n\nor just wait a bit"),
     # Visualisation
     "slides/200-visualisation.md",

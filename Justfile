@@ -11,7 +11,7 @@ sync:
     uv sync
 
 ruff:
-    uvx ruff check --fix presentation.py slides/*.py dynamic_slides/*.py clippt/*.py
+    uvx ruff check --fix presentation.py dynamic_slides/*.py clippt/*.py
     uvx ruff format presentation.py slides/*.py dynamic_slides/*.py clippt/*.py
 
 qr:
