@@ -1,22 +1,18 @@
-from datetime import datetime
-from textual import on
-from textual.widgets import Label, ListItem, ListView, Markdown, Static
-from typing_extensions import Text
-
-from textual.app import App
-from textual.containers import Container, Grid, Horizontal, Vertical
-from textual.widget import Widget
-from clippt.slides import slide
-
-from textual_plotext import PlotextPlot
 import polars as pl
+from textual import on
+from textual.app import App
+from textual.containers import Container, Horizontal, Vertical
+from textual.widgets import Label, ListItem, ListView, Markdown, Static
+from textual_plotext import PlotextPlot
+
+from clippt.slides import slide
 
 
 class YearInfoWidget(Container):
     def compose(self):
         """Create child widgets of a stopwatch."""
-        yield Markdown(f"## Overall stats", id="overall_stats")
-        yield Markdown(f"**Total precipitation**: N/A", id="overall_prec")
+        yield Markdown("## Overall stats", id="overall_stats")
+        yield Markdown("**Total precipitation**: N/A", id="overall_prec")
 
     def update(self, year_data: pl.DataFrame):
         overall_prec = int(year_data["prcp"].sum())
@@ -29,17 +25,19 @@ class WeatherDashboard(Container):
     def __init__(self, data, **kwargs) -> None:
         super().__init__(**kwargs)
         self.data = data
-        self.available_years: list[int] = sorted(self.data.select(year=pl.col("time").dt.year())["year"].unique())[::-1]
+        self.available_years: list[int] = sorted(
+            self.data.select(year=pl.col("time").dt.year())["year"].unique()
+        )[::-1]
 
     def compose(self):
         """Create child widgets of a stopwatch."""
         yield Markdown("# Prague Weather Dashboard")
         with Horizontal():
-                with Vertical():
-                    yield Static("[blue]Select year[/blue]")
-                    yield self.create_year_list()
-                    yield self.create_year_info()
-                yield PlotextPlot(id="monthly_plot")
+            with Vertical():
+                yield Static("[blue]Select year[/blue]")
+                yield self.create_year_list()
+                yield self.create_year_info()
+            yield PlotextPlot(id="monthly_plot")
 
     def create_year_info(self):
         container = YearInfoWidget(id="year_info")
@@ -58,31 +56,46 @@ class WeatherDashboard(Container):
         self._update_year_info()
 
     def create_year_list(self):
-        list_view = ListView(*[
-            ListItem(Label(str(year))) for year in self.available_years
-        ], id="year_list")
-        list_view.can_focus=False
+        list_view = ListView(
+            *[ListItem(Label(str(year))) for year in self.available_years],
+            id="year_list",
+        )
+        list_view.can_focus = False
         return list_view
 
     def _update_monthly_plot(self):
         widget = self.get_widget_by_id("monthly_plot", PlotextPlot)
         if widget:
             data = self.data.filter(pl.col("time").dt.year() == self.year)
-            monthly = data.group_by_dynamic("time", every="1mo").agg(
-                pl.col("temp").min().alias("min_temp"),
-                pl.col("temp").mean().alias("mean_temp"),
-                pl.col("temp").max().alias("max_temp"),
-            ).with_columns(
-                month=pl.col("time").dt.strftime("%d/%m/%Y")
+            monthly = (
+                data.group_by_dynamic("time", every="1mo")
+                .agg(
+                    pl.col("temp").min().alias("min_temp"),
+                    pl.col("temp").mean().alias("mean_temp"),
+                    pl.col("temp").max().alias("max_temp"),
+                )
+                .with_columns(month=pl.col("time").dt.strftime("%d/%m/%Y"))
             )
 
             widget.plt.clear_figure()
-            widget.plt.plot(monthly["month"], monthly["min_temp"], marker="·", color="blue")
-            widget.plt.scatter(monthly["month"], monthly["min_temp"], marker="o", color="blue")
-            widget.plt.plot(monthly["month"], monthly["max_temp"], marker="·", color="red")
-            widget.plt.scatter(monthly["month"], monthly["max_temp"], marker="o", color="red")
-            widget.plt.plot(monthly["month"], monthly["mean_temp"], marker="·", color="gray")
-            widget.plt.scatter(monthly["month"], monthly["mean_temp"], marker="∅︎", color="gray")
+            widget.plt.plot(
+                monthly["month"], monthly["min_temp"], marker="·", color="blue"
+            )
+            widget.plt.scatter(
+                monthly["month"], monthly["min_temp"], marker="o", color="blue"
+            )
+            widget.plt.plot(
+                monthly["month"], monthly["max_temp"], marker="·", color="red"
+            )
+            widget.plt.scatter(
+                monthly["month"], monthly["max_temp"], marker="o", color="red"
+            )
+            widget.plt.plot(
+                monthly["month"], monthly["mean_temp"], marker="·", color="gray"
+            )
+            widget.plt.scatter(
+                monthly["month"], monthly["mean_temp"], marker="∅︎", color="gray"
+            )
             widget.plt.title(f"Monthly temperatures of {self.year}")
             widget.refresh()
 

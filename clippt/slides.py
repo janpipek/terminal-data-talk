@@ -1,25 +1,22 @@
-from abc import ABC, abstractmethod
-from pathlib import Path
-from textwrap import dedent
-from dataclasses import dataclass, field
 import subprocess
 import traceback
-from typing import Optional, ClassVar, Literal, Callable
+from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
 from io import StringIO
+from pathlib import Path
+from textwrap import dedent
+from typing import Any, Callable, ClassVar, Literal, Optional
 
 import polars as pl
-from rich.text import Text
 from rich.console import Console
+from rich.panel import Panel
+from rich.text import Text
 from textual.app import App
-from textual.containers import Container, VerticalScroll
+from textual.containers import VerticalScroll
 from textual.widget import Widget
 from textual.widgets import Markdown, Static
-from rich.panel import Panel
-
 from textual_fastdatatable import DataTable
 from textual_fastdatatable.backend import PolarsBackend
-
-from typing import Any
 
 from clippt.utils import wait_for_key
 
@@ -90,9 +87,7 @@ class CodeSlide(Slide):
         if self.title:
             if self.is_title_markdown:
                 return Markdown(self.title + f"\n\n```{self.language}\n{code}\n```")
-            return Markdown(
-                f"# {self.title}\n\n```{self.language}\n{code}\n```"
-            )
+            return Markdown(f"# {self.title}\n\n```{self.language}\n{code}\n```")
         return Markdown(f"```{self.language}\n{code}\n```")
 
     def _render_output(self, app) -> Widget:
@@ -112,7 +107,13 @@ class CodeSlide(Slide):
                 case "shell":
                     if not self._output:
                         with app.suspend():
-                            p = subprocess.run(self.source, shell=True, capture_output=True, text=True, encoding="utf-8")
+                            p = subprocess.run(
+                                self.source,
+                                shell=True,
+                                capture_output=True,
+                                text=True,
+                                encoding="utf-8",
+                            )
                             self._output = p.stdout
                     output = self._output
         except Exception as ex:
@@ -122,14 +123,16 @@ class CodeSlide(Slide):
             traceback.print_exception(ex, file=out)
             output = out.getvalue()
         else:
-            output = "\n".join(
-                " " + line.rstrip() for line in output.splitlines()
-            )
+            output = "\n".join(" " + line.rstrip() for line in output.splitlines())
         output_widget = Static(Text.from_ansi(output + "\n"))
         if self.title:
             if self.is_title_markdown:
-                return VerticalScroll(Markdown(self.title), output_widget, can_focus=False)
-            return VerticalScroll(Markdown(f"# {self.title}"), output_widget, can_focus=False)
+                return VerticalScroll(
+                    Markdown(self.title), output_widget, can_focus=False
+                )
+            return VerticalScroll(
+                Markdown(f"# {self.title}"), output_widget, can_focus=False
+            )
         return VerticalScroll(output_widget, can_focus=False)
 
     def _exec(self, app: App) -> None:
@@ -167,6 +170,7 @@ class CodeSlide(Slide):
 
 class MarkdownSlide(Slide):
     """Markdown slide with source from external file or string."""
+
     def render(self, app: App) -> Markdown:
         return Markdown(dedent(self.source))
 
@@ -174,6 +178,7 @@ class MarkdownSlide(Slide):
 @dataclass
 class FuncSlide(Slide):
     """Any slide created from a function."""
+
     f: Callable[[App], Markdown | Text | str] = field(kw_only=True)
     source = ""  # ignored
     path = None  # ignored
@@ -212,6 +217,7 @@ class DataSlide(Slide):
                     self.data = pl.read_parquet(self.path)
                 case _:
                     raise NotImplementedError()
+
 
 def slide(f: Callable[[App], Any]) -> FuncSlide:
     """Decorator to create a markdown slide from a function."""

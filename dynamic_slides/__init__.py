@@ -1,6 +1,8 @@
-from clippt.slides import slide
-from textual.app import App
 from rich.console import Console
+from textual.app import App
+
+from clippt.slides import slide
+from dynamic_slides.dashboard import weather_dashboard
 
 
 @slide
@@ -28,3 +30,6 @@ def terminal_is_your_weapon(app: App):
     - supports alternate screen
 
     """
+
+
+__all__ = ["weather_dashboard", "terminal_is_your_weapon"]

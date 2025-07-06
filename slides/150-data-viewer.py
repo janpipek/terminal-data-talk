@@ -1,6 +1,7 @@
 import sys
-import polars as pl
 from pathlib import Path
+
+import polars as pl
 from textual.app import App, ComposeResult
 from textual_fastdatatable import DataTable
 from textual_fastdatatable.backend import PolarsBackend
@@ -10,8 +11,8 @@ class DataApp(App):
     data: pl.DataFrame
 
     def __init__(self, data: pl.DataFrame, **kwargs):
-         super().__init__(**kwargs)
-         self.data = data
+        super().__init__(**kwargs)
+        self.data = data
 
     def compose(self) -> ComposeResult:
         backend = PolarsBackend.from_dataframe(self.data)
@@ -25,4 +26,4 @@ if __name__ == "__main__":
     path = Path(sys.argv[1])
     method_candidate = f"read_{path.suffix[1:]}"
     if hasattr(pl, method_candidate):
-        data =
+        data = ...

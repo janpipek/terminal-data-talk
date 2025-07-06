@@ -2,9 +2,8 @@ from pathlib import Path
 
 import click
 
-from clippt import PresentationApp, md, sh, py, load
-from dashboard import weather_dashboard
-from slides import terminal_is_your_weapon
+from clippt import PresentationApp, md, py, sh
+from dynamic_slides import terminal_is_your_weapon, weather_dashboard
 
 
 @click.command()
@@ -35,31 +34,36 @@ SLIDES = [
     "slides/004-why.md",
     md("# Python in the terminal...\n...is just Python 🐍"),
     "slides/010-problems.md",
-
     # Tabular data
     # md("slides/100-tabular.md"),
     "data/countries.csv",
     # sh("cat data/countries.csv", title="data/countries.csv", mode="output"),
-    sh("cat data/countries.csv | less", alt_screen=True, title="Standard Unix tools: cat, less ⛏️"),
-    sh("bat data/countries.csv", alt_screen=True, title="bat = cat & less on steroids ⛏️"),
+    sh(
+        "cat data/countries.csv | less",
+        alt_screen=True,
+        title="Standard Unix tools: cat, less ⛏️",
+    ),
+    sh(
+        "bat data/countries.csv",
+        alt_screen=True,
+        title="bat = cat & less on steroids ⛏️",
+    ),
     # sh("bat data/countries.csv --paging=never", title="bat = cat & less on steroids ⛏️"),
-
     "slides/120-task-sort.md",
     sh("xan view -A data/countries.csv", title="xan = The CSV magician ⛏️"),
     sh("xan sort -NR -s population data/countries.csv | xan view - M"),
-    sh("xan search -s region Asia data/countries.csv  | xan sort -NR -s population | xan view -M"),
-
+    sh(
+        "xan search -s region Asia data/countries.csv  | xan sort -NR -s population | xan view -M"
+    ),
     "slides/130-visidata.md",
     sh("visidata data/countries.csv", alt_screen=True),
-
     md("# Enough shell...\nlet's Python"),
     "slides/121-sorted_countries_pandas.py",
     "slides/122-sorted_countries_polars.py",
-
+    "slides/140-rich.md",
+    py("slides/141-rich.py", alt_screen=True),
     "data/cities.parquet",
     sh("bat data/cities.parquet", alt_screen=True),
-
-
     # Visualisation
     "slides/200-visualisation.md",
     py(
@@ -69,13 +73,10 @@ SLIDES = [
     ),
     # "slides/spurious_correlations.csv",
     terminal_is_your_weapon,
-
     # Dashboards
     "slides/400-dashboards.md",
     sh("htop", alt_screen=True),
-
     weather_dashboard,
-
     # End
     "slides/999-end.md",
 ]

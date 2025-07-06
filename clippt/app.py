@@ -1,14 +1,14 @@
 import os
 from pathlib import Path
-from clippt.slides import Slide, load
 
 import click
 from textual.app import App, ComposeResult
-from textual.containers import  Container
-from textual.widgets import Footer
+from textual.containers import Container
 from textual.css.query import QueryError
+from textual.widgets import Footer
 
-from clippt.theming import my_theme, css_tweaks
+from clippt.slides import Slide, load
+from clippt.theming import css_tweaks, my_theme
 
 
 class PresentationApp(App):
@@ -41,9 +41,7 @@ class PresentationApp(App):
 
     def _ensure_load_slides(self, slides: list[Slide | str | Path]) -> list[Slide]:
         return [
-            slide_or_path
-            if isinstance(slide_or_path, Slide)
-            else load(slide_or_path)
+            slide_or_path if isinstance(slide_or_path, Slide) else load(slide_or_path)
             for slide_or_path in slides
         ]
 
@@ -51,7 +49,8 @@ class PresentationApp(App):
         """Create child widgets for the app."""
         # yield Header(show_clock=True)
         yield Container(
-            self.current_slide.render(app=self), id="content"  #, can_focus=False
+            self.current_slide.render(app=self),
+            id="content",  # , can_focus=False
         )
         if self.enable_footer:
             yield Footer(show_command_palette=False)
@@ -93,7 +92,9 @@ class PresentationApp(App):
     def action_edit(self) -> None:
         if self.current_slide.path:
             with self.suspend():
-                click.edit(filename=[self.current_slide.path], editor=os.environ.get("EDITOR"))
+                click.edit(
+                    filename=[self.current_slide.path], editor=os.environ.get("EDITOR")
+                )
             self.current_slide.reload()
         self.update_slide()
 
