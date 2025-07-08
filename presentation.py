@@ -97,7 +97,7 @@ SLIDES = [
     md("# Aren't we reinventing the wheel?\n\nI actually was/am..."),
     "slides/libraries.md",
     "slides/plottile.md",
-    load("slides/plotille_line.py", alt_screen=True),
+    load("slides/plotille_line.py", alt_screen=True, wait_for_key=True),
     load("slides/plotille_hist.py"),
     "slides/plotext.md",
     load("slides/spurious_correlations.py"),

@@ -11,7 +11,7 @@ cities = pl.read_parquet("data/cities.parquet")
 
 fig, ax = plt.subplots()
 
-ax.scatter(cities["lng"], cities["lat"])
+ax.scatter(cities["lng"], cities["lat"], s=cities["population"] / 1e5, color="red", alpha=0.5)
 ax.set_xlabel("Longitude")
 ax.set_ylabel("Latitude")
 ax.set_title("Map of the World")
