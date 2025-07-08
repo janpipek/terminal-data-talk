@@ -1,6 +1,12 @@
 import polars as pl  # HIDE
+
 # HIDE
-countries = pl.read_csv("data/countries.csv").filter(region="Asia").sort("population", descending=True).select("country", "population")
+countries = (
+    pl.read_csv("data/countries.csv")
+    .filter(region="Asia")
+    .sort("population", descending=True)
+    .select("country", "population")
+)
 countries = countries.head(15)
 data = {country: population for country, population in countries.iter_rows()}
 

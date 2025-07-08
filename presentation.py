@@ -78,9 +78,20 @@ SLIDES = [
     ),
     # "slides/spurious_correlations.csv",
     terminal_is_your_weapon,
-    md("## Example: Simple barchart\nPopulation of Czech cities"),
-    load("slides/simple_bar.py"),
-
+    md("## Example: Simple barchart\nThe most populous countries of th world"),
+    "slides/simple_bar.py",
+    load("slides/simple_bar_unicode.py", mode="output"),
+    "slides/colours.md",
+    "slides/colours1.py",
+    load("slides/colours256.py", mode="output"),
+    # md("## Example: Simple scatter plot\nPopulation vs area"),
+    # TODO: Some other example!
+    "slides/simple_scatter.py",
+    # TODO: Add plotext
+    # TODO: Add plotille
+    md("## What if..."),
+    md("## ...we could actually use matplotlib in the terminal?\nkitty save us!"),
+    load("slides/kitty.py", alt_screen=True),
     # Dashboards
     "slides/400-dashboards.md",
     sh("htop", alt_screen=True),
