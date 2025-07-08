@@ -25,4 +25,5 @@ fig.plot(
     marker="o",
     label="Max. temperature",
 )
+print("Yearly temperatures\n")
 print(fig.show(legend=True))
