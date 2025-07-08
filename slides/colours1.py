@@ -1,5 +1,3 @@
-# Apply ANSI escape codes!
-
 print("\033[31m Red text \033[0m")  # Red text
 
 # Bold white text on green background

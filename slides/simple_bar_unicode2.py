@@ -1,12 +1,13 @@
 import polars as pl
+import random
 
-# HIDE_ABOVE
 countries = (
     pl.read_csv("data/countries.csv")
     .filter(region="Asia")
     .sort("population", descending=True)
     .select("country", "population")
 )
+# HIDE_ABOVE
 countries = countries.head(15)
 data = {country: population for country, population in countries.iter_rows()}
 
@@ -17,5 +18,8 @@ max_value = max(data.values())
 
 # Draw line of various widths
 for label, value in data.items():
-    n_chars = int(value / max_value * WIDTH / 2)
-    print(f"  {label:{label_width}} {'#' * n_chars} {value}")
+    n_chars = int(value / max_value * WIDTH / 4)
+    chars = "".join([
+        random.choice("🤕👶👨👱🧒🤠🤰") for _ in range(n_chars)
+    ])
+    print(f"  {label:{label_width}} {chars} {value}")

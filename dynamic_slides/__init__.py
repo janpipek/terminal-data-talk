@@ -27,6 +27,10 @@ def terminal_is_your_weapon(app: App):
 
         │ ─┌ ┐ └ ┘ ┼ ┴ ┬ █
 
+    - ...including emoji
+
+        🖖 💕 👽 🦖 💯
+
     - supports alternate screen
 
     """
