@@ -1,8 +1,8 @@
 continue:
-    uv run presentation.py --continue
+    uv run presentation.py --continue  --disable-footer
 
 present:
-    uv run presentation.py # --disable-footer
+    uv run presentation.py --disable-footer
 
 help:
     uv run presentation.py --help

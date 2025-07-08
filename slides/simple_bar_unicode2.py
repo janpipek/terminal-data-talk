@@ -1,6 +1,8 @@
 import polars as pl
 import random
 
+print()
+
 countries = (
     pl.read_csv("data/countries.csv")
     .filter(region="Asia")
@@ -22,4 +24,4 @@ for label, value in data.items():
     chars = "".join([
         random.choice("🤕👶👨👱🧒🤠🤰") for _ in range(n_chars)
     ])
-    print(f"  {label:{label_width}} {chars} {value}")
+    print(f"  {label:{label_width}} {chars}   {value}")

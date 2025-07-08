@@ -79,7 +79,7 @@ class CodeSlide(Slide, ABC):
                     output = self._exec_inline(app)
                     return self._render_output(output=output, app=app)
 
-    def _render_code(self) -> Markdown:
+    def _render_code(self) -> VerticalScroll:
         code_lines = []
         for line in self.source.splitlines():
             line = line.rstrip()
@@ -94,9 +94,12 @@ class CodeSlide(Slide, ABC):
         code = "\n".join(line for line in code_lines)
         if self.title:
             if self.is_title_markdown:
-                return Markdown(self.title + f"\n\n```{self.language}\n{code}\n```")
-            return Markdown(f"# {self.title}\n\n```{self.language}\n{code}\n```")
-        return Markdown(f"```{self.language}\n{code}\n```")
+                md = Markdown(self.title + f"\n\n```{self.language}\n{code}\n```")
+            else:
+               md = Markdown(f"# {self.title}\n\n```{self.language}\n{code}\n```")
+        else:
+            md = Markdown(f"```{self.language}\n{code}\n```")
+        return VerticalScroll(md, can_focus=False)
 
     def _render_output(self, *, output: str, app: App) -> Widget:
         output_widget = Static(Text.from_ansi(output + "\n"))
@@ -157,7 +160,7 @@ class PythonSlide(CodeSlide):
             self.source,
             globals=globals()
             | {
-                "WIDTH": app.size.width - 4,
+                "WIDTH": app.size.width - (10 if self.title else 4),
                 "HEIGHT": app.size.height - 2,
             },
         )

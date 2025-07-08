@@ -11,12 +11,14 @@ from dynamic_slides import terminal_is_your_weapon, weather_dashboard
 @click.option(
     "--continue", "-c", "continue_", is_flag=True, help="Continue from last slide."
 )
-def presentation(continue_: bool):
+@click.option("--disable-footer", is_flag=True, help="Disable footer.")
+def presentation(continue_: bool, disable_footer: bool):
     """Run the presentation."""
     app = PresentationApp(
         title=TITLE,
         slides=SLIDES,
     )
+    app.enable_footer = not disable_footer
     if continue_ and Path(".current_slide").exists():
         app.slide_index = int(Path(".current_slide").read_text())
     app.slide_index = min(app.slide_index, len(SLIDES) - 1)
@@ -79,7 +81,7 @@ SLIDES = [
     ),
     # "slides/spurious_correlations.csv",
     terminal_is_your_weapon,
-    md("## Example: Simple barchart\nThe most populous countries of th world"),
+    md("## Example: Simple barchart\nThe most populous countries in Asia"),
     "slides/simple_bar.py",
     load("slides/simple_bar_unicode.py", mode="output"),
     load("slides/simple_bar_unicode2.py", mode="output"),
@@ -88,9 +90,14 @@ SLIDES = [
     load("slides/colours256.py", mode="output", title="256 colours"),
     # load("slides/true_colour.py", mode="output", title="True colour"),
     load("slides/simple_bar_colours.py", mode="output", title="Pinch of colours"),
-    # md("## Example: Simple scatter plot\nPopulation vs area"),
-    # TODO: Some other example!
-    "slides/simple_scatter.py",
+
+    md("# Example: Simple scatter plot to draw a 'map' of Czechia") ,
+    load("slides/simple_scatter.py"),
+
+    md("# Aren't we reinventing the wheel?\n\nI actually was/am..."),
+    "slides/libraries.md",
+
+    # load("slides/simple_scatter.py", title="Map of Czechia"),
     # TODO: Add plotext
     # TODO: Add plotille
     md("## What if..."),

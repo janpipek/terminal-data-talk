@@ -8,7 +8,7 @@ countries = (
     .sort("population", descending=True)
     .select("country", "population")
 )
-countries = countries.head(15)  # HIDE_ABOVE
+# countries = countries.head(15)  # HIDE_ABOVE
 data = {country: population for country, population in countries.iter_rows()}
 
 # Some measurements
@@ -18,13 +18,15 @@ max_value = max(data.values())
 
 # Draw line of various widths
 even = False
-
 console = Console(color_system="truecolor")
 
 for label, value in data.items():
-    n_chars = int(value / max_value * WIDTH / 2)
+    n_chars = int(value / max_value * WIDTH / 2) + 1
+    line = f"  [bold][green]{label:{label_width}}[/bold][/green]  "
     if even:
-        console.print(f"  [bold][green]{label:{label_width}}[/bold][/green] [white on #ff8080]{' ' * n_chars}[/] {value}")
+        line += "[white on #ff8080]"
     else:
-        console.print(f"  [bold][green]{label:{label_width}}[/bold][/green] [white on #ffc0c0]{' ' * n_chars}[/] {value}")
+        line += "[white on #ffc0c0]"
+    line += f"{' ' * n_chars}[/]   {value}"
+    console.print(line)
     even = not even

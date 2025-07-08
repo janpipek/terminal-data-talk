@@ -1,6 +1,7 @@
 import polars as pl
 
-# HIDE_ABOVE
+print()
+
 countries = (
     pl.read_csv("data/countries.csv")
     .filter(region="Asia")
@@ -8,6 +9,7 @@ countries = (
     .select("country", "population")
 )
 countries = countries.head(15)
+# HIDE_ABOVE
 data = {country: population for country, population in countries.iter_rows()}
 
 # Some measurements
@@ -18,4 +20,4 @@ max_value = max(data.values())
 # Draw line of various widths
 for label, value in data.items():
     n_chars = int(value / max_value * WIDTH / 2)
-    print(f"  {label:{label_width}} {'#' * n_chars} {value}")
+    print(f"  {label:{label_width}} {'#' * n_chars}   {value}")
