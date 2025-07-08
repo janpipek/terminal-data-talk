@@ -80,11 +80,18 @@ class CodeSlide(Slide, ABC):
                     return self._render_output(output=output, app=app)
 
     def _render_code(self) -> Markdown:
-        code = "\n".join(
-            " " + line.rstrip()
-            for line in self.source.splitlines()
-            if "# HIDE" not in line
-        )
+        code_lines = []
+        for line in self.source.splitlines():
+            line = line.rstrip()
+            if "# HIDE_ABOVE" in line:
+                code_lines = []
+                continue
+            if "# HIDE_BELOW" in line:
+                break
+            if "# HIDE" in line:
+                continue
+            code_lines.append(line)
+        code = "\n".join(line for line in code_lines)
         if self.title:
             if self.is_title_markdown:
                 return Markdown(self.title + f"\n\n```{self.language}\n{code}\n```")
@@ -179,12 +186,26 @@ class ShellSlide(CodeSlide):
         return self._output
 
 
+@dataclass
 class MarkdownSlide(Slide):
+    classes: Optional[str] = None
+
     """Markdown slide with source from external file or string."""
 
     def render(self, app: App) -> Markdown:
-        return Markdown(dedent(self.source))
+        return Markdown(dedent(self.source), classes=self.classes)
 
+
+@dataclass
+class TextSlide(Slide):
+    title: Optional[str] = None
+
+    def render(self, app: App) -> VerticalScroll:
+        widgets = []
+        if self.title:
+            widgets.append(Markdown(f"# {self.title}"))
+        widgets.append(Static(self.source))
+        return VerticalScroll(*widgets, can_focus=False)
 
 @dataclass
 class FuncSlide(Slide):
@@ -260,5 +281,7 @@ def load(path: str | Path, **kwargs) -> Slide:
             return MarkdownSlide(path=path, **kwargs)
         case ".csv" | ".pq" | ".parquet":
             return DataSlide(path=path, **kwargs)
+        case ".txt":
+            return TextSlide(path=path, **kwargs)
         case _:
             return MarkdownSlide(source=f"Unknown file type: {path}")

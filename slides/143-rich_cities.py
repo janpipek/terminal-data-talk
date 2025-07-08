@@ -11,11 +11,11 @@ def show_table(df: pl.DataFrame):  # HIDE
         table.add_column(col)  # HIDE
     for row in df.iter_rows():  # HIDE
         table.add_row(*(str(v) for v in row))  # HIDE
-    console = Console()  # HIDE
-    console.print(table)  # HIDE
+    console = Console()
+    console.print(table)
 
 
-# HIDE
+# HIDE_ABOVE
 cities = pl.read_parquet("data/cities.parquet")
 # 47868 rows, 11 columns
 

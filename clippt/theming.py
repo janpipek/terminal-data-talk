@@ -24,14 +24,20 @@ css_tweaks = """
     Screen {
         align: center middle;
     }
-    MarkdownFence {
-        max-height: 100;
-        background: #ffffff;
-    }
     Footer {
-        background: #ffffc0;
+        background: #ffffd0;
         color: white;
         dock: bottom;
         height: 1;
+    }
+    Markdown.title {
+        MarkdownFence {
+            background: white;
+            margin: 0;
+        }
+    }
+    MarkdownFence {
+        background: #fff9e4; /* Light yellow */
+        margin: 1;
     }
  """

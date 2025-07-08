@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import click
+from polars.datatypes import classes
 
 from clippt import PresentationApp, load, md, sh
 from dynamic_slides import terminal_is_your_weapon, weather_dashboard
@@ -26,7 +27,7 @@ TITLE = "Data wrangling in a modern terminal"
 
 SLIDES = [
     # Intro
-    "slides/000-title.md",
+    load("slides/000-title.md", classes="title"),
     "slides/001-prompt.md",
     "slides/001-prompt2.md",
     "slides/001-prompt3.md",

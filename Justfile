@@ -12,7 +12,7 @@ sync:
 
 ruff:
     uvx ruff check --fix presentation.py dynamic_slides/*.py clippt/*.py
-    uvx ruff format presentation.py slides/*.py dynamic_slides/*.py clippt/*.py
+    uvx ruff format presentation.py dynamic_slides/*.py clippt/*.py
 
 qr:
     qrencode -t utf8i https://github.com/janpipek/terminal-data-talk

@@ -3,10 +3,8 @@ from rich.console import Console  # HIDE
 from rich.table import Table  # HIDE
 
 df = pl.read_csv("data/countries.csv")  # HIDE
-# HIDE
+# HIDE_ABOVE
 ...
-
-
 def show_table(df: pl.DataFrame):
     table = Table()
     for col in df.columns:
