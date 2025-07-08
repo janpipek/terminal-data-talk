@@ -100,9 +100,11 @@ SLIDES = [
     load("slides/plotille_line.py", alt_screen=True, wait_for_key=True),
     load("slides/plotille_hist.py"),
     "slides/plotext.md",
-    load("slides/spurious_correlations.py"),
+    load("slides/plotext_line.py"),
+
+    # load("slides/spurious_correlations.py"),
     load("slides/plotext_hist.py"),
-    load("slides/plotext_lines.py", alt_screen=True),
+
 
     md("## What if..."),
     md("## ...we could actually use matplotlib in the terminal?\nkitty save us!"),
