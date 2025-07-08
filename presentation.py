@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import click
-from polars.datatypes import classes
 
 from clippt import PresentationApp, load, md, sh
 from dynamic_slides import terminal_is_your_weapon, weather_dashboard
@@ -112,6 +111,8 @@ SLIDES = [
     # Dashboards
     "slides/400-dashboards.md",
     sh("htop", alt_screen=True),
+    "slides/textual.md",
+
     weather_dashboard,
     # End
     "slides/999-end.md",
