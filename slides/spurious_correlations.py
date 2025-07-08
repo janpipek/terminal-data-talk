@@ -10,7 +10,7 @@ data = pl.read_csv(
 plt.plot(
     data["Year"], data["Fuel Used"], label="Jet fuel used in Czechia", yside="left"
 )
-plt.plot_size(50, 15)
+plt.plot_size(WIDTH, HEIGHT)
 plt.plot(
     data["Year"],
     data["Everest Climbs"],

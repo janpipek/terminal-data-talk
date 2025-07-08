@@ -96,13 +96,17 @@ SLIDES = [
 
     md("# Aren't we reinventing the wheel?\n\nI actually was/am..."),
     "slides/libraries.md",
+    "slides/plottile.md",
+    load("slides/plotille_line.py", alt_screen=True),
+    load("slides/plotille_hist.py"),
+    "slides/plotext.md",
+    load("slides/spurious_correlations.py"),
+    load("slides/plotext_hist.py"),
+    load("slides/plotext_lines.py", alt_screen=True),
 
-    # load("slides/simple_scatter.py", title="Map of Czechia"),
-    # TODO: Add plotext
-    # TODO: Add plotille
     md("## What if..."),
     md("## ...we could actually use matplotlib in the terminal?\nkitty save us!"),
-    load("slides/kitty.py", alt_screen=True),
+    load("slides/kitty.py", alt_screen=True, wait_for_key=True),
     # Dashboards
     "slides/400-dashboards.md",
     sh("htop", alt_screen=True),
