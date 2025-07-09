@@ -7,7 +7,7 @@ yearly = weather.group_by(
 ).agg(
     min_temp=pl.col("temp").min(),
     max_temp=pl.col("temp").max(),
-).filter(pl.col("year") >= 1990)
+).filter(pl.col("year").is_between(1990, 2023))
 # HIDE_ABOVE
 import plotext as plt
 

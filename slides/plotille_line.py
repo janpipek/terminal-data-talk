@@ -18,12 +18,13 @@ fig.plot(
     marker="o",
     label="Min. temperature",
 )
-fig.plot(
-    yearly["year"],
-    yearly["max_temp"],
-    lc="red",
-    marker="o",
-    label="Max. temperature",
-)
+... # Similar with max. temp
+fig.plot(  # HIDE
+    yearly["year"], # HIDE
+    yearly["max_temp"], # HIDE
+    lc="red", # HIDE
+    marker="o", # HIDE
+     label="Max. temperature",  # HIDE
+) # HIDE
 print("Yearly temperatures\n")
 print(fig.show(legend=True))

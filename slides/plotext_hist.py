@@ -17,7 +17,6 @@ plt.plotsize(WIDTH, HEIGHT)
 bins = 60
 plt.hist(daily["min_temp"], bins, color="blue", label = "min. temp")
 plt.hist(daily["max_temp"], bins, color="red", label = "max. temp")
-#plt.hist(daily["total_precipitation"], bins, color="blue")
 
 plt.title("Histogram Plot")
 plt.show()
