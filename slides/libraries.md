@@ -5,4 +5,4 @@
 - ...and many others
 - matplotlib-backend-kitty
 
-- not covered: visidata tool
+- not covered: plotting in visidata

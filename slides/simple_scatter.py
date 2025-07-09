@@ -2,6 +2,8 @@ import polars as pl
 import numpy as np
 
 cities = pl.read_parquet("data/cities.parquet")
+print("\n\n")
+HEIGHT -= 2
 # HIDE_ABOVE
 cities = cities.filter(country="Czechia").sort("population", descending=True)
 

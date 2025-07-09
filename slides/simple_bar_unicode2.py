@@ -20,7 +20,7 @@ max_value = max(data.values())
 
 # Draw line of various widths
 for label, value in data.items():
-    n_chars = int(value / max_value * WIDTH / 4)
+    n_chars = max(int(value / max_value * WIDTH / 4), 1)
     chars = "".join([
         random.choice("🤕👶👨👱🧒🤠🤰") for _ in range(n_chars)
     ])

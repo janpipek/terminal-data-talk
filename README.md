@@ -42,6 +42,7 @@ python presentation.py
 
 - [plotille](https://github.com/tammoippen/plotille)
 - [plotext](https://github.com/piccolomo/plotext)
+- [matplotlib-backend-kitty](https://github.com/jktr/matplotlib-backend-kitty)
 - [rich](https://github.com/Textualize/rich)
 - [textual](https://textual.textualize.io/)
 - [textual-plotext](https://github.com/Textualize/textual-plotext)

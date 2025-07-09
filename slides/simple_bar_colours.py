@@ -21,7 +21,7 @@ even = False
 console = Console(color_system="truecolor")
 
 for label, value in data.items():
-    n_chars = int(value / max_value * WIDTH / 2) + 1
+    n_chars = max(int(value / max_value * WIDTH / 2), 1)
     line = f"  [bold][green]{label:{label_width}}[/bold][/green]  "
     if even:
         line += "[white on #ff8080]"
