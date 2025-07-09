@@ -21,3 +21,5 @@ PyData Prague Meetup #28
 █ ▀▀▀ █ ▄▄  ▄▀█▀  ▄ ▀▀▄█▀▄█▀█
 ▀▀▀▀▀▀▀ ▀▀▀▀▀▀ ▀   ▀▀ ▀ ▀
 ```
+
+https://github.com/janpipek/terminal-data-talk

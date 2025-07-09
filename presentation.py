@@ -115,7 +115,7 @@ SLIDES = [
 
     weather_dashboard,
     # End
-    "slides/999-end.md",
+    load("slides/999-end.md", classes="title"),
 ]
 
 
