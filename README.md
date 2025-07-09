@@ -47,3 +47,9 @@ python presentation.py
 - [textual-plotext](https://github.com/Textualize/textual-plotext)
 - [textual-plot](https://github.com/davidfokkema/textual-plot)
 - [textual-fastdatatable](https://github.com/tconbeer/textual-fastdatatable)
+
+### Other recommendations
+
+- [click]() - argument parsing
+- [typer]() - argument parsing based on type annotations
+- [prompt_toolkit]() - input handling

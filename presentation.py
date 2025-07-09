@@ -113,6 +113,8 @@ SLIDES = [
     sh("htop", alt_screen=True),
     "slides/textual.md",
 
+    load("slides/data_viewer.py", alt_screen=True, wait_for_key=False),
+
     weather_dashboard,
     # End
     load("slides/999-end.md", classes="title"),
