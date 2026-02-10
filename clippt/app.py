@@ -100,7 +100,7 @@ class PresentationApp(App):
         if self.current_slide.runnable:
             self.current_slide.run()
             self.update_slide()
-            self.refresh()
+            # No need to refresh() - update_slide() handles the refresh
 
     @property
     def current_slide(self) -> Slide:
@@ -109,8 +109,10 @@ class PresentationApp(App):
     def update_slide(self) -> None:
         try:
             container_widget = self.query_one("#content", Container)
+            if not container_widget.is_attached:
+                return
             container_widget.remove_children()
-            self.refresh()
+            # No need to refresh() - mounting will trigger automatic refresh
             content_widget = self.slides[self.slide_index].render(app=self)
             container_widget.mount(content_widget)
             Path(".current_slide").write_text(str(self.slide_index))

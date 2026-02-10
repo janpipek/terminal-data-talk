@@ -16,9 +16,11 @@ class YearInfoWidget(Container):
 
     def update(self, year_data: pl.DataFrame):
         overall_prec = int(year_data["prcp"].sum())
-        prec: Markdown = self.get_child_by_id("overall_prec", Markdown)
-        prec.update(f"**Total precipitation**: {overall_prec} mm")
-        # self.refresh()
+        try:
+            prec: Markdown = self.get_child_by_id("overall_prec", Markdown)
+            prec.update(f"**Total precipitation**: {overall_prec} mm")
+        except:
+            pass
 
 
 class WeatherDashboard(Container):
@@ -45,12 +47,13 @@ class WeatherDashboard(Container):
 
     def on_mount(self):
         self.year = self.available_years[0]
-        self._update_monthly_plot()
-        self._update_year_info()
+        # Use call_after_refresh to ensure widgets are fully mounted
+        self.call_after_refresh(self._update_monthly_plot)
+        self.call_after_refresh(self._update_year_info)
 
     @on(ListView.Selected, "#year_list")
     def _year_selected(self):
-        list_view = self.get_widget_by_id("year_list", ListView)
+        list_view = self.query_one("#year_list", ListView)
         self.year = self.available_years[list_view.index]
         self._update_monthly_plot()
         self._update_year_info()
@@ -64,7 +67,10 @@ class WeatherDashboard(Container):
         return list_view
 
     def _update_monthly_plot(self):
-        widget = self.get_widget_by_id("monthly_plot", PlotextPlot)
+        try:
+            widget = self.query_one("#monthly_plot", PlotextPlot)
+        except:
+            return
         if widget:
             data = self.data.filter(pl.col("time").dt.year() == self.year)
             monthly = (
@@ -97,10 +103,13 @@ class WeatherDashboard(Container):
                 monthly["month"], monthly["mean_temp"], marker="∅︎", color="gray"
             )
             widget.plt.title(f"Monthly temperatures of {self.year}")
-            widget.refresh()
+            # widget.refresh() is called automatically by Textual
 
     def _update_year_info(self):
-        widget = self.get_widget_by_id("year_info", YearInfoWidget)
+        try:
+            widget = self.query_one("#year_info", YearInfoWidget)
+        except:
+            return
         data = self.data.filter(pl.col("time").dt.year() == self.year)
         widget.update(data)
 
