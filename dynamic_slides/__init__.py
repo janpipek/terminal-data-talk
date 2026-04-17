@@ -3,9 +3,13 @@ from textual.app import App
 from textual.containers import Container, VerticalScroll
 from textual.widgets import Markdown, DataTable
 
-from clippt.slides import slide
+from clippt.slides import FuncSlide
 from dynamic_slides.dashboard import weather_dashboard
 from textwrap import dedent
+
+
+def slide(f):
+    return FuncSlide(f=f)
 
 
 @slide
@@ -13,7 +17,6 @@ def terminal_is_your_weapon(app: App):
     dims = app.size
 
     console = Console()
-    console.color_system
 
     return f"""\
     ## (Modern) Terminal emulator is your weapon
