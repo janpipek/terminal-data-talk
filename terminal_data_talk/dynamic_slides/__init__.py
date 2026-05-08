@@ -1,11 +1,12 @@
-from rich.console import Console
-from textual.app import App
-from textual.containers import Container, VerticalScroll
-from textual.widgets import Markdown, DataTable
+from textwrap import dedent
 
 from clippt.slides import FuncSlide
-from dynamic_slides.dashboard import weather_dashboard
-from textwrap import dedent
+from rich.console import Console
+from textual.app import App
+from textual.containers import VerticalScroll
+from textual.widgets import DataTable, Markdown
+
+from .dashboard import weather_dashboard
 
 
 def slide(f):

@@ -19,6 +19,12 @@ dependencies = [
     "visidata>=3.2",
 ]
 
+[project.scripts]
+presentation = "terminal_data_talk:presentation"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.ruff.lint]
 extend-select = ["I"]

@@ -1,11 +1,10 @@
 import polars as pl
+from clippt.slides import FuncSlide
 from textual import on
 from textual.app import App
 from textual.containers import Container, Horizontal, Vertical
 from textual.widgets import Label, ListItem, ListView, Markdown, Static
 from textual_plotext import PlotextPlot
-
-from clippt.slides import FuncSlide
 
 
 def slide(f):
