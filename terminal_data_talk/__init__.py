@@ -38,7 +38,7 @@ def create_presentation():
         return ShellSlide(source=command, cwd=CWD, **kwargs)
 
     def load(source, **kwargs):
-        return load_slide(CWD / source, **kwargs)
+        return load_slide(source, **kwargs)
 
     slides = [
         load("slides/000-title.md", classes=["title"]),
@@ -132,7 +132,7 @@ def create_presentation():
 
     return Presentation(
         title="Data wrangling in a modern terminal",
-        slides=[load_slide(CWD / s) if isinstance(s, str) else s for s in slides],
+        slides=[load_slide(s) if isinstance(s, str) else s for s in slides],
     )
 
 
