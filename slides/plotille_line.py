@@ -13,8 +13,8 @@ yearly = weather.group_by(
 ).filter(pl.col("year") >= 1990)
 
 fig = plotille.Figure()
-fig.width = 60   # HIDE
-fig.height = 13    # HIDE
+fig.width = WIDTH - 17 # WIDTH   # HIDE
+fig.height = HEIGHT - 15    # HIDE
 fig.plot(
     yearly["year"],
     yearly["min_temp"],

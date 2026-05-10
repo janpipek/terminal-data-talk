@@ -13,8 +13,8 @@ daily = weather.group_by_dynamic(
 import plotille
 
 fig = plotille.Figure()
-fig.width = 58  # WIDTH - 5   # HIDE
-fig.height = 15  # HEIGHT     # HIDE
+fig.width = WIDTH - 20   # HIDE
+fig.height = HEIGHT - 10  # HEIGHT     # HIDE
 
 fig.histogram(
     daily["min_temp"],
