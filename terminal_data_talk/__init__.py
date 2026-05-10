@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import click
@@ -9,7 +10,7 @@ from .dynamic_slides import (
     weather_dashboard,
 )
 
-CWD = Path(__file__).parent
+CWD = Path(__file__).parent.parent
 
 
 @click.command()
@@ -19,6 +20,7 @@ CWD = Path(__file__).parent
 @click.option("--disable-footer", is_flag=True, help="Disable footer.")
 def presentation(continue_: bool, disable_footer: bool):
     """Run the presentation."""
+    os.chdir(CWD)
     presentation = create_presentation()
     app = PresentationApp(presentation)
     app.enable_footer = not disable_footer
@@ -38,7 +40,7 @@ def create_presentation():
         return ShellSlide(source=command, cwd=CWD, **kwargs)
 
     def load(source, **kwargs):
-        return load_slide(CWD / source, **kwargs)
+        return load_slide(source, **kwargs)
 
     slides = [
         load("slides/000-title.md", classes=["title"]),
@@ -125,6 +127,7 @@ def create_presentation():
         "slides/textual-fastdatatable.md",
         load("slides/data_viewer.py", alt_screen=True, wait_for_key=False),
         "slides/textual-plotext.md",
+        "data/weather.parquet",
         weather_dashboard,
         # End
         load("slides/999-end.md", classes=["title"]),
@@ -132,7 +135,7 @@ def create_presentation():
 
     return Presentation(
         title="Data wrangling in a modern terminal",
-        slides=[load_slide(CWD / s) if isinstance(s, str) else s for s in slides],
+        slides=[load_slide(s) if isinstance(s, str) else s for s in slides],
     )
 
 
