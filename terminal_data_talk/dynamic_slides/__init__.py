@@ -45,7 +45,8 @@ def terminal_is_your_weapon(app: App):
 
 @slide
 def data_table(app: App):
-    md = Markdown(dedent("""
+    md = Markdown(
+        dedent("""
         # DataTable widget
 
         ```
@@ -65,7 +66,6 @@ def data_table(app: App):
         can_focus=False,
         can_focus_children=False,
     )
-
 
 
 __all__ = ["weather_dashboard", "terminal_is_your_weapon", "data_table"]

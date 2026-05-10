@@ -1,4 +1,5 @@
 from functools import lru_cache
+
 import polars as pl
 from clippt.slides import FuncSlide
 from textual import on
@@ -11,19 +12,23 @@ from textual_plotext import PlotextPlot
 def slide(f):
     return FuncSlide(f=f)
 
+
 class YearInfoWidget(Container):
     def compose(self):
         """Create child widgets of a stopwatch."""
-        yield Markdown("## Overall stats", id="overall_stats")
-        yield Markdown("**Total precipitation**: N/A", id="overall_prec")
+        yield Markdown("## Overall stats", id="header")
+        yield Markdown("N/A", id="table")
 
-    def update(self, year_data: pl.DataFrame):
+    def update(self, *, year_data: pl.DataFrame, year: int):
         overall_prec = int(year_data["prcp"].sum())
         min_temp = float(year_data["temp"].min())
         max_temp = float(year_data["temp"].max())
         avg_temp = float(year_data["temp"].mean())
         try:
-            prec: Markdown = self.get_child_by_id("overall_prec", Markdown)
+            year_widget: Markdown = self.get_child_by_id("header", Markdown)
+            year_widget.update(f"## Overall stats for {year}")
+
+            prec: Markdown = self.get_child_by_id("table", Markdown)
             text = (
                 "| Metric              | Value           |\n"
                 "|---------------------|----------------|\n"
@@ -38,6 +43,8 @@ class YearInfoWidget(Container):
 
 
 class WeatherDashboard(Container):
+    ylims = (-20, 40)
+
     def __init__(self, data, **kwargs) -> None:
         super().__init__(**kwargs)
         self.data = data
@@ -120,6 +127,8 @@ class WeatherDashboard(Container):
                 monthly["month"], monthly["mean_temp"], marker="∅︎", color="gray"
             )
             widget.plt.title(f"Monthly temperatures of {self.year}")
+            widget.plt.ylim(*self.ylims)
+            widget.plt.xlabel("Month")
             widget.refresh()
 
     def _update_year_info(self):
@@ -128,7 +137,7 @@ class WeatherDashboard(Container):
         except:
             return
         data = self.data.filter(pl.col("time").dt.year() == self.year)
-        widget.update(data)
+        widget.update(year=self.year, year_data=data)
 
 
 @slide
