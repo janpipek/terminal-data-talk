@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import click
@@ -9,7 +10,7 @@ from .dynamic_slides import (
     weather_dashboard,
 )
 
-CWD = Path(__file__).parent
+CWD = Path(__file__).parent.parent
 
 
 @click.command()
@@ -19,6 +20,7 @@ CWD = Path(__file__).parent
 @click.option("--disable-footer", is_flag=True, help="Disable footer.")
 def presentation(continue_: bool, disable_footer: bool):
     """Run the presentation."""
+    os.chdir(CWD)
     presentation = create_presentation()
     app = PresentationApp(presentation)
     app.enable_footer = not disable_footer
