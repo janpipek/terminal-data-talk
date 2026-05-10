@@ -6,6 +6,7 @@ from clippt import Presentation, PresentationApp
 from clippt.slides import MarkdownSlide, ShellSlide, load_slide
 
 from .dynamic_slides import (
+    spotlights,
     terminal_is_your_weapon,
     weather_dashboard,
 )
@@ -43,6 +44,7 @@ def create_presentation():
         return load_slide(source, **kwargs)
 
     slides = [
+        spotlights,
         load("slides/000-title.md", classes=["title"]),
         # "slides/001-prompt.md",
         "slides/001-prompt2.md",

@@ -16,6 +16,7 @@ dependencies = [
     "textual-dev>=1.7.0",
     "textual-fastdatatable>=0.12.0",
     "textual-plotext>=1.0.1",
+    "textualeffects>=0.2.0",
     "visidata>=3.2",
 ]
 
