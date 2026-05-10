@@ -109,7 +109,7 @@ def create_presentation():
         md("# Aren't we reinventing the wheel?"),
         "slides/libraries.md",
         "slides/plottile.md",
-        load("slides/plotille_line.py", alt_screen=True, wait_for_key=True),
+        load("slides/plotille_line.py"), #, alt_screen=True, wait_for_key=True),
         load("slides/plotille_hist.py"),
         "slides/plotext.md",
         load("slides/plotext_line.py"),
