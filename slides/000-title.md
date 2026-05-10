@@ -2,7 +2,7 @@
 
 Jan Pipek
 
-PyData Prague Meetup #28
+Plzeňské Pyvo #50
 
 ```
 █▀▀▀▀▀█ ▀▄▄▀▀▄▀ ▀▀▄▄▄ █▀▀▀▀▀█

@@ -6,17 +6,26 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "click>=8.2.1",
+    "clippt>=0.3.2",
+    "matplotlib-backend-kitty>=2.1.2",
     "pandas>=2.3.0",
-    "plottypus[all]>=0.2.0",
+    "plotille>=6.0.5",
     "polars>=1.31.0",
     "rich>=14.0.0",
     "textual>=3.5.0",
     "textual-dev>=1.7.0",
     "textual-fastdatatable>=0.12.0",
     "textual-plotext>=1.0.1",
+    "textualeffects>=0.2.0",
     "visidata>=3.2",
 ]
 
+[project.scripts]
+presentation = "terminal_data_talk:presentation"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.ruff.lint]
 extend-select = ["I"]
