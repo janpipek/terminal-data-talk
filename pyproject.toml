@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "click>=8.2.1",
-    "clippt>=0.3.2",
+    "clippt>=0.4.0",
     "matplotlib-backend-kitty>=2.1.2",
     "pandas>=2.3.0",
     "plotille>=6.0.5",
