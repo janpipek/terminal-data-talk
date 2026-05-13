@@ -23,6 +23,7 @@ def presentation(continue_: bool, disable_footer: bool):
     os.chdir(CWD)
     presentation = create_presentation()
     app = PresentationApp(presentation)
+    app.theme = "atom-one-light"  # Make this configurable at the library side
     app.enable_footer = not disable_footer
     if continue_ and Path(".current_slide").exists():
         current_slide_index = int(Path(".current_slide").read_text())
