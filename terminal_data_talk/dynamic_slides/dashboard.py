@@ -44,16 +44,18 @@ class YearInfoWidget(Container):
 
 class WeatherDashboard(Container):
     ylims = (-20, 40)
+    station: str
 
-    def __init__(self, data, **kwargs) -> None:
+    def __init__(self, data, *, station=None, **kwargs) -> None:
         super().__init__(**kwargs)
         self.data = data
+        self.station = str(station or "Unknown")
         self.available_years: list[int] = sorted(
             self.data.select(year=pl.col("time").dt.year())["year"].unique()
         )[::-1]
 
     def compose(self):
-        yield Markdown("# Prague Weather Dashboard")
+        yield Markdown(f"# Weather Dashboard: {self.station}")
         with Horizontal():
             with Vertical():
                 yield Static("[blue]Select year[/blue]")
@@ -142,6 +144,6 @@ class WeatherDashboard(Container):
 
 @slide
 def weather_dashboard(app: App) -> WeatherDashboard:
-    data = pl.read_parquet("data/weather.parquet")
-    data = data.filter(pl.col("time").dt.year() >= 2004)
-    return WeatherDashboard(data=data)
+    data = pl.read_parquet("data/plzen-meteostat.parquet")
+    # data = data.filter(pl.col("time").dt.year() >= 2004)
+    return WeatherDashboard(data=data, station="Plzeň-Líně")

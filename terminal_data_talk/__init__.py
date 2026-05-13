@@ -110,7 +110,7 @@ def create_presentation():
         md("# Aren't we reinventing the wheel?"),
         "slides/libraries.md",
         "slides/plottile.md",
-        load("slides/plotille_line.py"), #, alt_screen=True, wait_for_key=True),
+        load("slides/plotille_line.py"),  # , alt_screen=True, wait_for_key=True),
         load("slides/plotille_hist.py"),
         "slides/plotext.md",
         load("slides/plotext_line.py"),
@@ -128,7 +128,7 @@ def create_presentation():
         "slides/textual-fastdatatable.md",
         load("slides/data_viewer.py", alt_screen=True, wait_for_key=False),
         "slides/textual-plotext.md",
-        "data/weather.parquet",
+        "data/plzen-meteostat.parquet",
         weather_dashboard,
         # End
         load("slides/999-end.md", classes=["title"]),
