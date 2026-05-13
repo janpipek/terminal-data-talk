@@ -35,7 +35,7 @@ class YearInfoWidget(Container):
                 f"| Total precipitation | {overall_prec} mm |\n"
                 f"| Min temperature     | {min_temp}°C      |\n"
                 f"| Max temperature     | {max_temp}°C      |\n"
-                f"| Avg temperature     | {avg_temp:.1f}°C      |"
+                # f"| Avg temperature     | {avg_temp:.1f}°C      |"
             )
             prec.update(text)
         except:

@@ -6,6 +6,7 @@ from clippt import Presentation, PresentationApp
 from clippt.slides import MarkdownSlide, ShellSlide, load_slide
 
 from .dynamic_slides import (
+    mandelbrot,
     terminal_is_your_weapon,
     weather_dashboard,
 )
@@ -18,13 +19,15 @@ CWD = Path(__file__).parent.parent
     "--continue", "-c", "continue_", is_flag=True, help="Continue from last slide."
 )
 @click.option("--disable-footer", is_flag=True, help="Disable footer.")
-def presentation(continue_: bool, disable_footer: bool):
+@click.option("--disable-header", is_flag=True, help="Disable header.")
+def presentation(continue_: bool, disable_footer: bool, disable_header: bool):
     """Run the presentation."""
     os.chdir(CWD)
     presentation = create_presentation()
     app = PresentationApp(presentation)
     app.theme = "atom-one-light"  # Make this configurable at the library side
     app.enable_footer = not disable_footer
+    app.enable_header = not disable_header
     if continue_ and Path(".current_slide").exists():
         current_slide_index = int(Path(".current_slide").read_text())
     else:
@@ -44,11 +47,12 @@ def create_presentation():
         return load_slide(source, **kwargs)
 
     slides = [
+        mandelbrot,
         load("slides/000-title.md", classes=["title"]),
         # "slides/001-prompt.md",
         "slides/001-prompt2.md",
         "slides/001-prompt3.md",
-        md("# Why?"),
+        # "slides/001-prompt4.md",
         "slides/004-why.md",
         md("# Python in the terminal...\n...is just Python 🐍"),
         "slides/010-problems.md",

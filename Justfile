@@ -1,8 +1,8 @@
 continue:
-    uv run presentation --continue  --disable-footer
+    uv run presentation --continue  --disable-footer --disable-header
 
 present:
-    uv run presentation --disable-footer
+    uv run presentation --disable-footer --disable-header
 
 help:
     uv run presentation --help
