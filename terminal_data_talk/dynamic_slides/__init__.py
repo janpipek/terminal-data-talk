@@ -7,9 +7,9 @@ from textual.containers import VerticalScroll
 from textual.widgets import DataTable, Markdown
 
 from .dashboard import weather_dashboard
-from .mandelbrot import MandelbrotSlide
+from .europython import EuroPythonLogoSlide
 
-mandelbrot = MandelbrotSlide()
+europython_logo = EuroPythonLogoSlide(scrollbar="none")
 
 
 def slide(f):
@@ -71,4 +71,9 @@ def data_table(app: App):
     )
 
 
-__all__ = ["weather_dashboard", "terminal_is_your_weapon", "data_table", "mandelbrot"]
+__all__ = [
+    "weather_dashboard",
+    "terminal_is_your_weapon",
+    "data_table",
+    "europython_logo",
+]
