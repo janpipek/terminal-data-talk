@@ -1,8 +1,11 @@
 # Data wrangling in a modern terminal
 
-**Note: the presentation app is moved to a separate repo: [clippt](https://github.com/janpipek/clippt)**
+**Note: the presentation app is moved to a separate repo: [clippt](https://github.com/janpipek/clippt)**  
 
-This is a live presentation in terminal which I gave at PyData Prague in 2025.
+This is a live presentation in terminal which I gave at multiple occasions:
+- PyData Prague in 2025 - see [tag:pydata-28](https://github.com/janpipek/terminal-data-talk/releases/tag/pydata-28)
+- Pyvo Plzeň in 2026 - see [tag:pyvo-plzen](https://github.com/janpipek/terminal-data-talk/releases/tag/pyvo-plzen)
+
 The presentation itself is a Python app that uses [Textual](https://textual.textualize.io/) to drive the display
 of Markdown slides and run code snippets in a terminal window.
 
