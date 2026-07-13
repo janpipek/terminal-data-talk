@@ -20,3 +20,4 @@ plt.hist(daily["max_temp"], bins, color="red", label = "max. temp")
 
 plt.title("Histogram Plot")
 plt.show()
+plt.clear_figure()

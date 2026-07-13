@@ -1,39 +1,61 @@
+from functools import lru_cache
+
 import polars as pl
+from clippt.slides import FuncSlide
 from textual import on
 from textual.app import App
 from textual.containers import Container, Horizontal, Vertical
 from textual.widgets import Label, ListItem, ListView, Markdown, Static
 from textual_plotext import PlotextPlot
 
-from clippt.slides import slide
+
+def slide(f):
+    return FuncSlide(f=f)
 
 
 class YearInfoWidget(Container):
     def compose(self):
         """Create child widgets of a stopwatch."""
-        yield Markdown("## Overall stats", id="overall_stats")
-        yield Markdown("**Total precipitation**: N/A", id="overall_prec")
+        yield Markdown("## Overall stats", id="header")
+        yield Markdown("N/A", id="table")
 
-    def update(self, year_data: pl.DataFrame):
+    def update(self, *, year_data: pl.DataFrame, year: int):
         overall_prec = int(year_data["prcp"].sum())
+        min_temp = float(year_data["temp"].min())
+        max_temp = float(year_data["temp"].max())
+        avg_temp = float(year_data["temp"].mean())
         try:
-            prec: Markdown = self.get_child_by_id("overall_prec", Markdown)
-            prec.update(f"**Total precipitation**: {overall_prec} mm")
+            year_widget: Markdown = self.get_child_by_id("header", Markdown)
+            year_widget.update(f"## Overall stats for {year}")
+
+            prec: Markdown = self.get_child_by_id("table", Markdown)
+            text = (
+                "| Metric              | Value           |\n"
+                "|---------------------|----------------|\n"
+                f"| Total precipitation | {overall_prec} mm |\n"
+                f"| Min temperature     | {min_temp}°C      |\n"
+                f"| Max temperature     | {max_temp}°C      |\n"
+                # f"| Avg temperature     | {avg_temp:.1f}°C      |"
+            )
+            prec.update(text)
         except:
             pass
 
 
 class WeatherDashboard(Container):
-    def __init__(self, data, **kwargs) -> None:
+    ylims = (-20, 40)
+    station: str
+
+    def __init__(self, data, *, station=None, **kwargs) -> None:
         super().__init__(**kwargs)
         self.data = data
+        self.station = str(station or "Unknown")
         self.available_years: list[int] = sorted(
             self.data.select(year=pl.col("time").dt.year())["year"].unique()
         )[::-1]
 
     def compose(self):
-        """Create child widgets of a stopwatch."""
-        yield Markdown("# Prague Weather Dashboard")
+        yield Markdown(f"# Weather Dashboard: {self.station}")
         with Horizontal():
             with Vertical():
                 yield Static("[blue]Select year[/blue]")
@@ -66,22 +88,26 @@ class WeatherDashboard(Container):
         list_view.can_focus = False
         return list_view
 
+    @lru_cache
+    def compute_monthly_summary(self, year: int) -> pl.DataFrame:
+        data = self.data.filter(pl.col("time").dt.year() == self.year)
+        return (
+            data.group_by_dynamic("time", every="1mo")
+            .agg(
+                pl.col("temp").min().alias("min_temp"),
+                pl.col("temp").mean().alias("mean_temp"),
+                pl.col("temp").max().alias("max_temp"),
+            )
+            .with_columns(month=pl.col("time").dt.strftime("%d/%m/%Y"))
+        )
+
     def _update_monthly_plot(self):
         try:
             widget = self.query_one("#monthly_plot", PlotextPlot)
         except:
             return
         if widget:
-            data = self.data.filter(pl.col("time").dt.year() == self.year)
-            monthly = (
-                data.group_by_dynamic("time", every="1mo")
-                .agg(
-                    pl.col("temp").min().alias("min_temp"),
-                    pl.col("temp").mean().alias("mean_temp"),
-                    pl.col("temp").max().alias("max_temp"),
-                )
-                .with_columns(month=pl.col("time").dt.strftime("%d/%m/%Y"))
-            )
+            monthly = self.compute_monthly_summary(self.year)
 
             widget.plt.clear_figure()
             widget.plt.plot(
@@ -103,7 +129,9 @@ class WeatherDashboard(Container):
                 monthly["month"], monthly["mean_temp"], marker="∅︎", color="gray"
             )
             widget.plt.title(f"Monthly temperatures of {self.year}")
-            # widget.refresh() is called automatically by Textual
+            widget.plt.ylim(*self.ylims)
+            widget.plt.xlabel("Month")
+            widget.refresh()
 
     def _update_year_info(self):
         try:
@@ -111,11 +139,11 @@ class WeatherDashboard(Container):
         except:
             return
         data = self.data.filter(pl.col("time").dt.year() == self.year)
-        widget.update(data)
+        widget.update(year=self.year, year_data=data)
 
 
 @slide
 def weather_dashboard(app: App) -> WeatherDashboard:
-    data = pl.read_parquet("data/weather.parquet")
-    data = data.filter(pl.col("time").dt.year() >= 2004)
-    return WeatherDashboard(data=data)
+    data = pl.read_parquet("data/plzen-meteostat.parquet")
+    # data = data.filter(pl.col("time").dt.year() >= 2004)
+    return WeatherDashboard(data=data, station="Plzeň-Líně")

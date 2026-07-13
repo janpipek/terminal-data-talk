@@ -1,11 +1,19 @@
+from textwrap import dedent
+
+from clippt.slides import FuncSlide
 from rich.console import Console
 from textual.app import App
-from textual.containers import Container, VerticalScroll
-from textual.widgets import Markdown, DataTable
+from textual.containers import VerticalScroll
+from textual.widgets import DataTable, Markdown
 
-from clippt.slides import slide
-from dynamic_slides.dashboard import weather_dashboard
-from textwrap import dedent
+from .dashboard import weather_dashboard
+from .mandelbrot import MandelbrotSlide
+
+mandelbrot = MandelbrotSlide()
+
+
+def slide(f):
+    return FuncSlide(f=f)
 
 
 @slide
@@ -13,7 +21,6 @@ def terminal_is_your_weapon(app: App):
     dims = app.size
 
     console = Console()
-    console.color_system
 
     return f"""\
     ## (Modern) Terminal emulator is your weapon
@@ -41,7 +48,8 @@ def terminal_is_your_weapon(app: App):
 
 @slide
 def data_table(app: App):
-    md = Markdown(dedent("""
+    md = Markdown(
+        dedent("""
         # DataTable widget
 
         ```
@@ -63,5 +71,4 @@ def data_table(app: App):
     )
 
 
-
-__all__ = ["weather_dashboard", "terminal_is_your_weapon", "data_table"]
+__all__ = ["weather_dashboard", "terminal_is_your_weapon", "data_table", "mandelbrot"]
