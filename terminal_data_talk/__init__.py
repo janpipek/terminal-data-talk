@@ -47,20 +47,17 @@ def create_presentation():
         return load_slide(source, **kwargs)
 
     slides = [
+        # ---- Intro ----
         europython_logo,
         load("slides/000-title.md", classes=["title"]),
-        # "slides/001-prompt.md",
         "slides/001-prompt2.md",
         "slides/001-prompt3.md",
-        # "slides/001-prompt4.md",
         "slides/004-why.md",
         md("# Python in the terminal...\n...is just Python 🐍"),
         "slides/010-problems.md",
-        # Tabular data
+        # ---- Tabular data ----
         md("# Tabular data"),
-        # md("slides/100-tabular.md"),
         "data/countries.csv",
-        # sh("cat data/countries.csv", title="data/countries.csv", mode="output"),
         sh(
             "cat data/countries.csv | less",
             alt_screen=True,
@@ -71,7 +68,6 @@ def create_presentation():
             alt_screen=True,
             title="bat = cat & less on steroids ⛏️",
         ),
-        # sh("bat data/countries.csv --paging=never", title="bat = cat & less on steroids ⛏️"),
         "slides/120-task-sort.md",
         md("# xan = The CSV magician ⛏️"),
         sh("xan view -A data/countries.csv"),
@@ -87,7 +83,6 @@ def create_presentation():
         "slides/140-rich.md",
         "slides/141-rich.py",
         "slides/142-rich_countries.py",
-        # "data/cities.parquet",
         load("slides/143-polars_cities.py", alt_screen=True, wait_for_key=True),
         load(
             "slides/143-rich_cities.py",
@@ -96,9 +91,8 @@ def create_presentation():
             runnable=False,
         ),
         md("# Let's get interactive...\n\nor just wait a bit"),
-        # Visualisation
+        # ---- Visualisation ----
         "slides/200-visualisation.md",
-        # "slides/spurious_correlations.csv",
         terminal_is_your_weapon,
         md("# Example: Simple barchart\nThe most populous countries in Asia"),
         "slides/210-simple_bar.py",
@@ -107,18 +101,16 @@ def create_presentation():
         "slides/220-colours.md",
         load("slides/221-colours1.py", title="Apply ANSI escape codes"),
         load("slides/222-colours256.py", title="256 colours"),
-        # load("slides/true_colour.py", mode="output", title="True colour"),
         load("slides/223-simple_bar_colours.py", title="Pinch of colours"),
         md("# Example: Simple scatter plot to draw a 'map' of Czechia"),
         load("slides/simple_scatter.py"),
         md("# Aren't we reinventing the wheel?"),
         "slides/301-libraries.md",
         "slides/310-plottile.md",
-        load("slides/311-plotille_line.py"),  # , alt_screen=True, wait_for_key=True),
+        load("slides/311-plotille_line.py"),
         load("slides/312-plotille_hist.py"),
         "slides/320-plotext.md",
         load("slides/321-plotext_line.py"),
-        # load("slides/spurious_correlations.py"),
         load("slides/322-plotext_hist.py"),
         md("# What if..."),
         md("# ...we could actually use matplotlib in the terminal?\nkitty save us!"),
@@ -134,7 +126,7 @@ def create_presentation():
         "slides/430-textual-plotext.md",
         "data/krakow-meteostat.parquet",
         weather_dashboard,
-        # End
+        # ---- End ----
         load("slides/999-end.md", classes=["title"]),
     ]
 
