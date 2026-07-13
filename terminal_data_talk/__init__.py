@@ -6,7 +6,7 @@ from clippt import Presentation, PresentationApp
 from clippt.slides import MarkdownSlide, ShellSlide, load_slide
 
 from .dynamic_slides import (
-    mandelbrot,
+    europython_logo,
     terminal_is_your_weapon,
     weather_dashboard,
 )
@@ -47,7 +47,7 @@ def create_presentation():
         return load_slide(source, **kwargs)
 
     slides = [
-        mandelbrot,
+        europython_logo,
         load("slides/000-title.md", classes=["title"]),
         # "slides/001-prompt.md",
         "slides/001-prompt2.md",

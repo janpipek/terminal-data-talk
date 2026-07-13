@@ -3,9 +3,9 @@ from rich.console import Console
 from textual.app import App
 
 from .dashboard import weather_dashboard
-from .mandelbrot import MandelbrotSlide
+from .europython import EuroPythonLogoSlide
 
-mandelbrot = MandelbrotSlide()
+europython_logo = EuroPythonLogoSlide(scrollbar="none")
 
 
 def slide(f):
@@ -42,4 +42,4 @@ def terminal_is_your_weapon(app: App):
     """
 
 
-__all__ = ["weather_dashboard", "terminal_is_your_weapon", "mandelbrot"]
+__all__ = ["weather_dashboard", "terminal_is_your_weapon", "europython_logo"]
