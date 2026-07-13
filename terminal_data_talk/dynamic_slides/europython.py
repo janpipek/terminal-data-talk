@@ -35,9 +35,6 @@ CELL_ASPECT = 2.0
 # the floor keeps it recognizable on short ones (e.g. a 25-row projector).
 MAX_DISC_RADIUS = 12
 MIN_DISC_RADIUS = 5
-# Below this many rows, the lettering collapses to "EURO PYTHON" on one line
-# and the emblem switches to the small snake.
-COMPACT_ROWS = 36
 
 # Pixel-art Python emblem: B/Y = blue/yellow snake, o = white eye.
 # Each logical pixel becomes two cells wide to compensate for cell aspect.
@@ -54,6 +51,19 @@ PYTHON_ART = [
     "...YYYYYY...",
     "...YYYYoY...",
     "...YYYYYY...",
+]
+# Mid-size snake for ry 7-8 discs: big enough to keep the emblem shape,
+# small enough (9x9, centred on the disc) to stay clear of the star ring.
+PYTHON_ART_MEDIUM = [
+    "..BBBBB..",
+    "..BoBBB..",
+    "BBBBBBBYY",
+    "BBBBBBBYY",
+    "BBBBBYYYY",
+    "BBYYYYYYY",
+    "BBYYYYYYY",
+    "..YYYoY..",
+    "..YYYYY..",
 ]
 # Reduced snake for small discs where the full art would overlap the stars.
 PYTHON_ART_SMALL = [
@@ -126,7 +136,7 @@ def render_frame(*, columns: int, rows: int, angle: float) -> Text:
     """
     grid = _Grid(columns=columns, rows=rows)
 
-    lettering = _render_lettering(compact=rows < COMPACT_ROWS)
+    lettering = _render_lettering()
     text_height = len(lettering)
 
     # Vertical layout: disc on top, lettering below, everything centred.
@@ -134,6 +144,7 @@ def render_frame(*, columns: int, rows: int, angle: float) -> Text:
     # Disc width is 2*rx + 1 = 2 * CELL_ASPECT * ry + 1 cells.
     disc_ry = min(disc_ry, int((columns - 3) / (2 * CELL_ASPECT)), MAX_DISC_RADIUS)
     disc_ry = max(disc_ry, MIN_DISC_RADIUS)
+    disc_ry = 7
     # Sacrifice the disc-to-lettering gap rather than clip the year's bottom.
     gap = 1 if (2 * disc_ry + 2) + text_height <= rows else 0
     total_height = (2 * disc_ry + 1) + gap + text_height
@@ -210,8 +221,14 @@ def _draw_python(grid: _Grid, *, cx: int, cy: int, ry: int) -> None:
     styles = {
         key: Style(color=color, bgcolor=NAVY) for key, color in ART_COLORS.items()
     }
-    # The full snake needs a disc of radius >= 8 to stay clear of the stars.
-    art = PYTHON_ART if ry >= 8 else PYTHON_ART_SMALL
+    # The full snake needs a disc of radius >= 8 to stay clear of the stars;
+    # the medium one fits ry == 7, anything smaller gets the reduced snake.
+    if ry > 8:
+        art = PYTHON_ART
+    elif ry >= 7:
+        art = PYTHON_ART_MEDIUM
+    else:
+        art = PYTHON_ART_SMALL
     top = cy - len(art) // 2
     left = cx - len(art[0])  # each logical pixel is two cells wide
     for dy, line in enumerate(art):
@@ -221,19 +238,10 @@ def _draw_python(grid: _Grid, *, cx: int, cy: int, ry: int) -> None:
                 grid.put(left + 2 * dx + 1, top + dy, "█", styles[key])
 
 
-def _render_lettering(*, compact: bool) -> list[list[tuple[str, Style]]]:
-    """Build the lettering lines as styled runs.
-
-    Compact mode puts "EURO PYTHON" on a single line so the whole logo can
-    fit short screens (25 rows of a projector-sized font).
-    """
+def _render_lettering() -> list[list[tuple[str, Style]]]:
+    """Build the lettering lines as styled runs."""
     letter_style = Style(color=LETTER_COLOR, bold=True)
-    if compact:
-        lines = _render_word("EURO PYTHON", style=letter_style)
-    else:
-        lines = _render_word("EURO", style=letter_style)
-        lines += [[]]
-        lines += _render_word("PYTHON", style=letter_style)
+    lines = _render_word("EURO PYTHON", style=letter_style)
     lines += [[]]
     for row in range(5):
         color = _blend(RED_GRADIENT[0], RED_GRADIENT[1], row / 4)
