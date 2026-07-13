@@ -132,7 +132,7 @@ def create_presentation():
         "slides/412-textual-fastdatatable.md",
         load("slides/420-data_viewer.py", alt_screen=True, wait_for_key=False),
         "slides/430-textual-plotext.md",
-        "data/plzen-meteostat.parquet",
+        "data/krakow-meteostat.parquet",
         weather_dashboard,
         # End
         load("slides/999-end.md", classes=["title"]),
