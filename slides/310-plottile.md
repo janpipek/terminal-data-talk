@@ -1,3 +1,3 @@
 # plotille 🐍
 
-by Matto Ippen
+by Tammo Ippen

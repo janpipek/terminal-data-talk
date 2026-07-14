@@ -1,7 +1,7 @@
 import os
 import sys
 if __name__ != "__main__":
-    os.system(sys.executable + " " + "slides/data_viewer.py data/cities.parquet")
+    os.system(sys.executable + " " + "slides/420-data_viewer.py data/cities.parquet")
 
 # HIDE_ABOVE
 from pathlib import Path

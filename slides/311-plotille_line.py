@@ -5,7 +5,7 @@ import polars as pl
 # HIDE_ABOVE
 import plotille
 
-weather = pl.read_parquet("data/weather.parquet")
+weather = pl.read_parquet("data/krakow-meteostat.parquet")
 yearly = weather.group_by(
     pl.col("time").dt.year().alias("year"), maintain_order=True
 ).agg(

@@ -1,6 +1,6 @@
 import polars as pl  # HIDE
 
-weather = pl.read_parquet("data/weather.parquet")
+weather = pl.read_parquet("data/krakow-meteostat.parquet")
 daily = weather.group_by_dynamic(
     "time",
     every="1d"

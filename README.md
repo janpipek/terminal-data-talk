@@ -5,6 +5,7 @@
 This is a live presentation in terminal which I gave at multiple occasions:
 - PyData Prague in 2025 - see [tag:pydata-28](https://github.com/janpipek/terminal-data-talk/releases/tag/pydata-28)
 - Pyvo Plzeň in 2026 - see [tag:pyvo-plzen](https://github.com/janpipek/terminal-data-talk/releases/tag/pyvo-plzen)
+- EuroPython Kraków in 2026
 
 The presentation itself is a Python app that uses [Textual](https://textual.textualize.io/) to drive the display
 of Markdown slides and run code snippets in a terminal window.
@@ -32,7 +33,7 @@ Just do (ideally in a virtual environment)
 
 ```shell
 pip install -e .
-python presentation.py
+presentation
 ```
 
 ## Links
@@ -56,6 +57,6 @@ python presentation.py
 
 ### Other recommendations
 
-- [click]() - argument parsing
-- [typer]() - argument parsing based on type annotations
-- [prompt_toolkit]() - input handling
+- [click](https://click.palletsprojects.com/) - argument parsing
+- [typer](https://typer.tiangolo.com/) - argument parsing based on type annotations
+- [prompt_toolkit](https://python-prompt-toolkit.readthedocs.io/) - input handling

@@ -8,7 +8,6 @@ import matplotlib
 # Use the 'kitty' backend
 matplotlib.use("module://matplotlib-backend-kitty")
 
-
 # A matplotlib example downloaded from the gallery
 import matplotlib.pyplot as plt
 import polars as pl
@@ -21,5 +20,4 @@ ax.scatter(cities["lng"], cities["lat"], s=cities["population"] / 1e5, color="re
 ax.set_xlabel("Longitude")
 ax.set_ylabel("Latitude")
 ax.set_title("Map of the World")
-# fig.patch.set_facecolor('white')
 plt.show()
