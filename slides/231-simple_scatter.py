@@ -5,7 +5,7 @@ cities = pl.read_parquet("data/cities.parquet")
 print("\n\n")
 HEIGHT -= 2
 # HIDE_ABOVE
-cities = cities.filter(country="Czechia").sort("population", descending=True)
+cities = cities.filter(country="Poland").sort("population", descending=True)
 
 min_lat, max_lat = int(cities["lat"].min()), int(cities["lat"].max()) + 1
 min_lon, max_lon = int(cities["lng"].min()), int(cities["lng"].max()) + 1
