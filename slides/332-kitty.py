@@ -1,7 +1,13 @@
+from matplotlib.figure import Figure
+_savefig = Figure.savefig  # HIDE
+Figure.savefig = lambda self, *a, **kw: _savefig(self, *a, **{**kw, "facecolor": self.get_facecolor()})  # HIDE
+
+# HIDE_ABOVE
 import matplotlib
 
 # Use the 'kitty' backend
 matplotlib.use("module://matplotlib-backend-kitty")
+
 
 # A matplotlib example downloaded from the gallery
 import matplotlib.pyplot as plt
