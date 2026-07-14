@@ -50,8 +50,8 @@ def create_presentation():
         # ---- Intro ----
         europython_logo,
         load("slides/000-title.md", classes=["title"]),
-        "slides/001-prompt2.md",
-        "slides/001-prompt3.md",
+        # "slides/001-prompt2.md",
+        # "slides/001-prompt3.md",
         "slides/004-why.md",
         md("# Python in the terminal...\n...is just Python 🐍"),
         "slides/010-problems.md",
