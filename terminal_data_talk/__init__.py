@@ -104,6 +104,8 @@ def create_presentation():
         load("slides/223-simple_bar_colours.py", title="Pinch of colours"),
         md("# Example: Simple scatter plot to draw a 'map' of Poland"),
         load("slides/231-simple_scatter.py"),
+        md("# Example: Topographic map of Poland"),
+        load("slides/240-map.py"),
         md("# Aren't we reinventing the wheel?"),
         "slides/301-libraries.md",
         "slides/310-plottile.md",
