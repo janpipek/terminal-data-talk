@@ -1,4 +1,4 @@
-HEIGHT -= 2
+HEIGHT -= 3
 # HIDE_ABOVE
 import numpy as np
 from rich.console import Console
@@ -22,11 +22,15 @@ colours_rgb = [
 ]
 styles = [f"rgb({c[0]},{c[1]},{c[2]})" for c in colours_rgb]
 
-scale = HEIGHT / array_levels.shape[1]
+scale_y = HEIGHT / array_levels.shape[1]
+scale_x = scale_y * 2
+indent = (WIDTH - int(np.round(scale_x * array_levels.shape[0]))) // 2
+
 for i in range(HEIGHT):
-    y = int(np.round(i / scale))
-    for j in range(int(array_levels.shape[0] * scale * 2)):
-        x = np.clip(int(np.round(j / (scale * 2))), 0, array_levels.shape[0] - 1)
+    console.print(" " * indent, end="")
+    y = int(np.round(i / scale_y))
+    for j in range(int(array_levels.shape[0] * scale_x)):
+        x = np.clip(int(np.round(j / scale_x)), 0, array_levels.shape[0] - 1)
         level = array_levels[y, x]
         if np.isnan(level):
             console.print(" ", end="")
