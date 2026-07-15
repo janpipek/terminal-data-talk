@@ -14,11 +14,12 @@ colours_rgb = [
     (0, 255, 0),
     (128, 255, 0),
     (255, 255, 0),
-    (255, 128, 0),
+    (255, 192, 0),
+    (255, 80, 0),
     (255, 0, 0),
     (255, 0, 128),
     (255, 0, 255),
-    (255, 255, 255),
+    # (255, 255, 255),
 ]
 styles = [f"rgb({c[0]},{c[1]},{c[2]})" for c in colours_rgb]
 
@@ -32,9 +33,9 @@ for i in range(HEIGHT):
     for j in range(int(array_levels.shape[0] * scale_x)):
         x = np.clip(int(np.round(j / scale_x)), 0, array_levels.shape[0] - 1)
         level = array_levels[y, x]
-        if np.isnan(level):
-            console.print(" ", end="")
-        else:
-            style = styles[int(np.clip(level, 0, len(styles) - 1))]
+        try:
+            style = styles[level]
             console.print("█", style=style, end="")
+        except IndexError:
+            console.print(" ", end="")
     console.print()
