@@ -2,4 +2,4 @@
 
 by @piccolomo
 
-https://github.com/piccolomo/plotext
+<https://github.com/piccolomo/plotext>

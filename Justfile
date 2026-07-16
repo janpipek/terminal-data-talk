@@ -1,3 +1,6 @@
+record:
+    asciinema rec --command "just present" --overwrite --title "Data wrangling in a modern terminal" recording.cast
+
 continue:
     uv run presentation --continue  --disable-footer --disable-header
 

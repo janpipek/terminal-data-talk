@@ -144,18 +144,20 @@ wheels = [
 
 [[package]]
 name = "clippt"
-version = "0.4.3"
+version = "0.4.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
+    { name = "polars" },
     { name = "pydantic" },
     { name = "rich" },
     { name = "shellingham" },
     { name = "textual" },
+    { name = "textual-fastdatatable" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/5a/a0/99d7d083c0f8409d847cb7b63aaae26157123ea1b4e4f06fa0f5184cf2ad/clippt-0.4.3.tar.gz", hash = "sha256:6620a7eed0da3325d61d09a1c86e37378c08e9993f12dd4f7863ff2d677e91b2", size = 91448, upload-time = "2026-05-13T13:06:01.643Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/43/47/9e33d67917132ddeffefa7202773cef0a042f49a31a4e35705e46b6dc27c/clippt-0.4.5.tar.gz", hash = "sha256:07faa1b25ae6f9303aa9791e4265eb4dabc5388116e122983364335b6017d98f", size = 94297, upload-time = "2026-07-16T13:12:19.098Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/60/56/6098b1c6e48f262490ace4a57fc8b0ae642bfb61980c19f403dbedc106b8/clippt-0.4.3-py3-none-any.whl", hash = "sha256:106389c153ea522f7f75d2c4566276c96c18c9b3a2d6f106e5bdc17b7788df1f", size = 25129, upload-time = "2026-05-13T13:06:00.223Z" },
+    { url = "https://files.pythonhosted.org/packages/a6/b9/01b25db0641ae4d0b58d8cf4059832e58fee37a712d43df0d2c4352111de/clippt-0.4.5-py3-none-any.whl", hash = "sha256:75a9e360251c9cb6e8ddc096e4e3cde1e3ae0b304cd805986cd7f237f6cbbffd", size = 24966, upload-time = "2026-07-16T13:12:05.891Z" },
 ]
 
 [[package]]
@@ -1266,7 +1268,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "click", specifier = ">=8.2.1" },
-    { name = "clippt", specifier = ">=0.4.3" },
+    { name = "clippt", specifier = ">=0.4.5" },
     { name = "matplotlib-backend-kitty", specifier = ">=2.1.2" },
     { name = "pandas", specifier = ">=2.3.0" },
     { name = "plotille", specifier = ">=6.0.5" },

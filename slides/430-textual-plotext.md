@@ -1,6 +1,6 @@
 # textual-plotext 🐍
 
-by Will McGugan
+by Dave Pearson
 
 <https://github.com/Textualize/textual-plotext>
 

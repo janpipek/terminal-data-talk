@@ -50,10 +50,12 @@ def create_presentation():
         # ---- Intro ----
         europython_logo,
         load("slides/000-title.md", classes=["title"]),
-        # "slides/001-prompt2.md",
-        # "slides/001-prompt3.md",
         "slides/004-why.md",
-        md("# Python in the terminal...\n...is just Python 🐍"),
+        md("# You are already in the command line..."),
+        sh("ssh me@elsewhe.re", runnable=False),
+        load("slides/007-mandelbrot.py"),q
+        sh("Be cool!😎 \ncmatrix # HIDE", alt_screen=True, display_mode="output"),
+        md("# Python in the terminal...\n...is just Python"),
         "slides/010-problems.md",
         # ---- Tabular data ----
         md("# Tabular data"),
@@ -135,6 +137,7 @@ def create_presentation():
     return Presentation(
         title="Data wrangling in a modern terminal",
         slides=[load_slide(s) if isinstance(s, str) else s for s in slides],
+        slide_base_path=Path(".")
     )
 
 
