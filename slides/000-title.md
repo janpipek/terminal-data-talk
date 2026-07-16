@@ -2,7 +2,7 @@
 
 Jan Pipek
 
-EuroPython 2026
+🇨🇿 PyData Prague / PyCon CZ, *currently unemployed* 
 
 ```
 █▀▀▀▀▀█ ▀▄▄▀▀▄▀ ▀▀▄▄▄ █▀▀▀▀▀█

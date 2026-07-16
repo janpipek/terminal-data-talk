@@ -57,7 +57,7 @@ def create_presentation():
         "slides/010-problems.md",
         # ---- Tabular data ----
         md("# Tabular data"),
-        "data/countries.csv",
+        # "data/countries.csv",
         sh(
             "cat data/countries.csv | less",
             alt_screen=True,
@@ -90,7 +90,6 @@ def create_presentation():
             wait_for_key=True,
             runnable=False,
         ),
-        md("# Let's get interactive...\n\nor just wait a bit"),
         # ---- Visualisation ----
         "slides/200-visualisation.md",
         terminal_is_your_weapon,
@@ -126,6 +125,7 @@ def create_presentation():
         "slides/412-textual-fastdatatable.md",
         load("slides/420-data_viewer.py", alt_screen=True, wait_for_key=False),
         "slides/430-textual-plotext.md",
+        md("# Example: Temperature dashboard (Kraköw)"),
         "data/krakow-meteostat.parquet",
         weather_dashboard,
         # ---- End ----
