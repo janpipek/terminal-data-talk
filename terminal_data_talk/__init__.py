@@ -52,8 +52,8 @@ def create_presentation():
         load("slides/000-title.md", classes=["title"]),
         "slides/004-why.md",
         md("# You are already in the command line..."),
-        sh("ssh me@elsewhe.re", runnable=False),
-        load("slides/007-mandelbrot.py"),q
+        sh("ssh me@elsewhe.re", title="You are somewhere else", runnable=False),
+        load("slides/007-mandelbrot.py"),
         sh("Be cool!😎 \ncmatrix # HIDE", alt_screen=True, display_mode="output"),
         md("# Python in the terminal...\n...is just Python"),
         "slides/010-problems.md",
