@@ -6,7 +6,7 @@ from clippt import Presentation, PresentationApp
 from clippt.slides import MarkdownSlide, ShellSlide, load_slide
 
 from .dynamic_slides import (
-    mandelbrot,
+    europython_logo,
     terminal_is_your_weapon,
     weather_dashboard,
 )
@@ -47,20 +47,17 @@ def create_presentation():
         return load_slide(source, **kwargs)
 
     slides = [
-        mandelbrot,
+        # ---- Intro ----
+        europython_logo,
         load("slides/000-title.md", classes=["title"]),
-        # "slides/001-prompt.md",
-        "slides/001-prompt2.md",
-        "slides/001-prompt3.md",
-        # "slides/001-prompt4.md",
+        # "slides/001-prompt2.md",
+        # "slides/001-prompt3.md",
         "slides/004-why.md",
         md("# Python in the terminal...\n...is just Python 🐍"),
         "slides/010-problems.md",
-        # Tabular data
+        # ---- Tabular data ----
         md("# Tabular data"),
-        # md("slides/100-tabular.md"),
-        "data/countries.csv",
-        # sh("cat data/countries.csv", title="data/countries.csv", mode="output"),
+        # "data/countries.csv",
         sh(
             "cat data/countries.csv | less",
             alt_screen=True,
@@ -71,7 +68,6 @@ def create_presentation():
             alt_screen=True,
             title="bat = cat & less on steroids ⛏️",
         ),
-        # sh("bat data/countries.csv --paging=never", title="bat = cat & less on steroids ⛏️"),
         "slides/120-task-sort.md",
         md("# xan = The CSV magician ⛏️"),
         sh("xan view -A data/countries.csv"),
@@ -87,7 +83,6 @@ def create_presentation():
         "slides/140-rich.md",
         "slides/141-rich.py",
         "slides/142-rich_countries.py",
-        # "data/cities.parquet",
         load("slides/143-polars_cities.py", alt_screen=True, wait_for_key=True),
         load(
             "slides/143-rich_cities.py",
@@ -95,46 +90,45 @@ def create_presentation():
             wait_for_key=True,
             runnable=False,
         ),
-        md("# Let's get interactive...\n\nor just wait a bit"),
-        # Visualisation
+        # ---- Visualisation ----
         "slides/200-visualisation.md",
-        # "slides/spurious_correlations.csv",
         terminal_is_your_weapon,
         md("# Example: Simple barchart\nThe most populous countries in Asia"),
-        "slides/simple_bar.py",
-        load("slides/simple_bar_unicode.py", mode="output"),
-        load("slides/simple_bar_unicode2.py", mode="output"),
-        "slides/colours.md",
-        load("slides/colours1.py", title="Apply ANSI escape codes"),
-        load("slides/colours256.py", title="256 colours"),
-        # load("slides/true_colour.py", mode="output", title="True colour"),
-        load("slides/simple_bar_colours.py", title="Pinch of colours"),
-        md("# Example: Simple scatter plot to draw a 'map' of Czechia"),
-        load("slides/simple_scatter.py"),
+        "slides/210-simple_bar.py",
+        load("slides/211-simple_bar_unicode.py", mode="output"),
+        load("slides/212-simple_bar_unicode2.py", mode="output"),
+        "slides/220-colours.md",
+        load("slides/221-colours1.py", title="Apply ANSI escape codes"),
+        load("slides/222-colours256.py", title="256 colours"),
+        load("slides/223-simple_bar_colours.py", title="Pinch of colours"),
+        md("# Example: Simple scatter plot to draw a 'map' of Poland"),
+        load("slides/231-simple_scatter.py"),
+        md("# Example: Topographic map of Poland"),
+        load("slides/240-map.py"),
         md("# Aren't we reinventing the wheel?"),
-        "slides/libraries.md",
-        "slides/plottile.md",
-        load("slides/plotille_line.py"),  # , alt_screen=True, wait_for_key=True),
-        load("slides/plotille_hist.py"),
-        "slides/plotext.md",
-        load("slides/plotext_line.py"),
-        # load("slides/spurious_correlations.py"),
-        load("slides/plotext_hist.py"),
+        "slides/301-libraries.md",
+        "slides/310-plottile.md",
+        load("slides/311-plotille_line.py"),
+        load("slides/312-plotille_hist.py"),
+        "slides/320-plotext.md",
+        load("slides/321-plotext_line.py"),
+        load("slides/322-plotext_hist.py"),
         md("# What if..."),
         md("# ...we could actually use matplotlib in the terminal?\nkitty save us!"),
-        load("slides/kitty.py", alt_screen=True, wait_for_key=True),
-        # Dashboards
+        load("slides/332-kitty.py", alt_screen=True, wait_for_key=True),
+        # ---- Dashboards ---
         "slides/400-dashboards.md",
         sh("htop", alt_screen=True),
         md("# Don't reinvent the wheel!"),
-        "slides/textual.md",
-        "slides/textual-widgets.md",
-        "slides/textual-fastdatatable.md",
-        load("slides/data_viewer.py", alt_screen=True, wait_for_key=False),
-        "slides/textual-plotext.md",
-        "data/plzen-meteostat.parquet",
+        "slides/410-textual.md",
+        "slides/411-textual-widgets.md",
+        "slides/412-textual-fastdatatable.md",
+        load("slides/420-data_viewer.py", alt_screen=True, wait_for_key=False),
+        "slides/430-textual-plotext.md",
+        md("# Example: Temperature dashboard (Kraköw)"),
+        "data/krakow-meteostat.parquet",
         weather_dashboard,
-        # End
+        # ---- End ----
         load("slides/999-end.md", classes=["title"]),
     ]
 

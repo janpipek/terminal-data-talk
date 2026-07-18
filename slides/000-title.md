@@ -2,7 +2,7 @@
 
 Jan Pipek
 
-Plzeňské Pyvo #50
+🇨🇿 PyData Prague / PyCon CZ, *currently unemployed* 
 
 ```
 █▀▀▀▀▀█ ▀▄▄▀▀▄▀ ▀▀▄▄▄ █▀▀▀▀▀█

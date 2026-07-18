@@ -1,15 +1,11 @@
-from textwrap import dedent
-
 from clippt.slides import FuncSlide
 from rich.console import Console
 from textual.app import App
-from textual.containers import VerticalScroll
-from textual.widgets import DataTable, Markdown
 
 from .dashboard import weather_dashboard
-from .mandelbrot import MandelbrotSlide
+from .europython import EuroPythonLogoSlide
 
-mandelbrot = MandelbrotSlide()
+europython_logo = EuroPythonLogoSlide(scrollbar="none")
 
 
 def slide(f):
@@ -46,29 +42,4 @@ def terminal_is_your_weapon(app: App):
     """
 
 
-@slide
-def data_table(app: App):
-    md = Markdown(
-        dedent("""
-        # DataTable widget
-
-        ```
-        dt = DataTable()
-        dt.add_columns("a", "b", "c")
-        dt.add_row(["1", "2", "3"])
-        ```
-    """)
-    )
-    dt = DataTable()
-    dt.add_columns("a", "b", "c")
-    dt.add_row("1", "2", "3")
-    dt.add_row("4", "5", "6")
-    return VerticalScroll(
-        md,
-        dt,
-        can_focus=False,
-        can_focus_children=False,
-    )
-
-
-__all__ = ["weather_dashboard", "terminal_is_your_weapon", "data_table", "mandelbrot"]
+__all__ = ["weather_dashboard", "terminal_is_your_weapon", "europython_logo"]

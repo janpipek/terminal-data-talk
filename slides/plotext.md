@@ -1,3 +1,0 @@
-# plotext 🐍
-
-by @piccolomo

@@ -1,3 +1,8 @@
+from matplotlib.figure import Figure
+_savefig = Figure.savefig  # HIDE
+Figure.savefig = lambda self, *a, **kw: _savefig(self, *a, **{**kw, "facecolor": self.get_facecolor()})  # HIDE
+
+# HIDE_ABOVE
 import matplotlib
 
 # Use the 'kitty' backend
@@ -15,5 +20,4 @@ ax.scatter(cities["lng"], cities["lat"], s=cities["population"] / 1e5, color="re
 ax.set_xlabel("Longitude")
 ax.set_ylabel("Latitude")
 ax.set_title("Map of the World")
-# fig.patch.set_facecolor('white')
 plt.show()

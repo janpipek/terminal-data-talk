@@ -144,6 +144,6 @@ class WeatherDashboard(Container):
 
 @slide
 def weather_dashboard(app: App) -> WeatherDashboard:
-    data = pl.read_parquet("data/plzen-meteostat.parquet")
-    # data = data.filter(pl.col("time").dt.year() >= 2004)
-    return WeatherDashboard(data=data, station="Plzeň-Líně")
+    data = pl.read_parquet("data/krakow-meteostat.parquet")
+    # data = data.filter(pl.col("time").dt.year() >= 2000)
+    return WeatherDashboard(data=data, station="Kraków")
